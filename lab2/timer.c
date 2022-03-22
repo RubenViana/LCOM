@@ -10,6 +10,9 @@
 #define THREELSB_MASK 0x7;
 #define FOURLSB_MASK 0XF;
 
+int hook_id_global;
+
+int counter = 0;
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   uint8_t control;
@@ -21,7 +24,7 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
     case 1: control |= BIT(6);break;
     case 2: control |= BIT(7);break;
   }
-  sys_outb(TIMER_CTRL,control)
+  sys_outb(TIMER_CTRL,control);
 
   uint16_t div = TIMER_FREQ / freq;
 
@@ -48,22 +51,24 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
 }
 
 int (timer_subscribe_int)(uint8_t *bit_no) {
-    /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  if(bit_no==NULL){
+    return 1;
+  }
+  sys_irqsetpolicy(CLOCK_IRQ,IRQ_REENABLE,(int*)bit_no);
+  hook_id_global = *bit_no;
 
-  return 1;
+  return 0;
 }
 
 int (timer_unsubscribe_int)() {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
 
-  return 1;
+  sys_irqrmpolicy(&hook_id_global);
+  return 0;
+
 }
 
 void (timer_int_handler)() {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+    ++counter;
 }
 
 int (timer_get_conf)(uint8_t timer, uint8_t *st) {
