@@ -10,7 +10,7 @@
 #define THREELSB_MASK 0x7;
 #define FOURLSB_MASK 0XF;
 
-int hook_id_global;
+int hook_id_global = 0;
 
 int counter = 0;
 

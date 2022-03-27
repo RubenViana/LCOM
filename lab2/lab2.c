@@ -49,11 +49,15 @@ int(timer_test_time_base)(uint8_t timer, uint32_t freq) {
 int(timer_test_int)(uint8_t time) {
   int ipc_status;
   message msg;
-  int hook_id = 0;
-  
-  timer_subscribe_int((uint8_t*) &hook_id);
+  uint8_t bit_no = 0;
+  uint32_t irq_set = BIT(bit_no);
+  int frequency = 60;
 
-  while( time!=0 ) {
+  timer_subscribe_int(&bit_no);
+
+  timer_set_frequency(0,frequency);
+
+  while( counter < frequency * time ) {
     int r = driver_receive(ANY, &msg, &ipc_status);
     if ( r != 0 ) { 
         printf("driver_receive failed with: %d", r);
@@ -62,12 +66,10 @@ int(timer_test_int)(uint8_t time) {
     if (is_ipc_notify(ipc_status)) { /* received notification */
         switch (_ENDPOINT_P(msg.m_source)) {
             case HARDWARE: /* hardware interrupt notification */				
-                if (msg.m_notify.interrupts & BIT((int)hook_id)) { /* subscribed interrupt */
+                if (msg.m_notify.interrupts & irq_set) { /* subscribed interrupt */
                   timer_int_handler();
-                  if(counter==60){
+                  if(counter % frequency == 0){
                     timer_print_elapsed_time();
-                    --time;
-                    counter=0;
                   }
                 }
                 break;
