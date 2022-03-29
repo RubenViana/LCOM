@@ -1,9 +1,14 @@
+
 #include <lcom/lcf.h>
 
 #include <lcom/lab3.h>
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "keyboard.h"
+
+extern uint8_t scancode;
+extern int cnt;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -30,9 +35,31 @@ int main(int argc, char *argv[]) {
 }
 
 int(kbd_test_scan)() {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
-
+  int ipc_status;
+  u_int8_t bit_no = 1;
+  u_int32_t irq_set = BIT(bit_no);
+  message msg;
+  kbc_subscribe_int(&bit_no);
+  while (scancode != ESCAPE_CODE) { 
+    int r = driver_receive(ANY, &msg, &ipc_status);
+    if (r != 0) {
+      printf("driver_receive failed with: %d", r);
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) { 
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE:                             
+          if (msg.m_notify.interrupts & irq_set) {
+            kbc_ih();
+            kbc_print_scancode();
+          }
+          break;
+        default: break;
+      }
+    }
+  }
+  kbc_unsubscribe_int();
+  kbd_print_no_sysinb(cnt);
   return 1;
 }
 
@@ -49,3 +76,4 @@ int(kbd_test_timed_scan)(uint8_t n) {
 
   return 1;
 }
+
