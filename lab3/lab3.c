@@ -75,6 +75,7 @@ int(kbd_test_poll)() {
   readStatus();
   if (sys_outb(IN_BUF_COMMANDS, WRITE_COMMAND) != 0) return 1;
   if (sys_outb(IN_BUF_ARGS, scancode | BIT(0)) != 0) return 1;
+  kbd_print_no_sysinb(cnt);
   return 0;
 }
 
@@ -88,7 +89,6 @@ int(kbd_test_timed_scan)(uint8_t n) {
   kbc_subscribe_int(&bit_no1);
   timer_subscribe_int(&bit_no0);
   int frequency = 60;
-  //timer_set_frequency(0,frequency);
 
   while (scancode != ESCAPE_CODE) { 
     int r = driver_receive(ANY, &msg, &ipc_status);
@@ -104,7 +104,7 @@ int(kbd_test_timed_scan)(uint8_t n) {
               if(counter  == frequency * n){
                 scancode = ESCAPE_CODE;
               }
-          }break;
+          }
           if (msg.m_notify.interrupts & kbd_int_bit) { 
             kbc_ih();
             kbc_print_scancode();

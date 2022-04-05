@@ -11,7 +11,6 @@ int (kbc_subscribe_int)(uint8_t * bit_no){
     return 1;
   }
   if(sys_irqsetpolicy(KEYBOARD_IRQ,IRQ_REENABLE|IRQ_EXCLUSIVE,&bit_no_int)!=0){
-    printf("error");
     return 1;
   }
   hook_id_global_kbd = bit_no_int;
