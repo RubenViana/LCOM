@@ -9,6 +9,7 @@
 
 extern uint8_t scancode;
 extern int cnt;
+extern int counter;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -60,7 +61,7 @@ int(kbd_test_scan)() {
   }
   kbc_unsubscribe_int();
   kbd_print_no_sysinb(cnt);
-  return 1;
+  return 0;
 }
 
 int(kbd_test_poll)() {
@@ -74,13 +75,49 @@ int(kbd_test_poll)() {
   readStatus();
   if (sys_outb(IN_BUF_COMMANDS, WRITE_COMMAND) != 0) return 1;
   if (sys_outb(IN_BUF_ARGS, scancode | BIT(0)) != 0) return 1;
-  return 1;
+  return 0;
 }
 
 int(kbd_test_timed_scan)(uint8_t n) {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  int ipc_status;
+  u_int8_t bit_no1 = 1;
+  u_int8_t bit_no0 = 0;
+  u_int32_t timer0_int_bit = BIT(bit_no0);
+  u_int32_t kbd_int_bit = BIT(bit_no1);
+  message msg;
+  kbc_subscribe_int(&bit_no1);
+  timer_subscribe_int(&bit_no0);
+  int frequency = 60;
+  //timer_set_frequency(0,frequency);
 
-  return 1;
+  while (scancode != ESCAPE_CODE) { 
+    int r = driver_receive(ANY, &msg, &ipc_status);
+    if (r != 0) {
+      printf("driver_receive failed with: %d", r);
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) { 
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE:                             
+          if (msg.m_notify.interrupts & timer0_int_bit) {
+              timer_int_handler();
+              if(counter  == frequency * n){
+                scancode = ESCAPE_CODE;
+              }
+          }break;
+          if (msg.m_notify.interrupts & kbd_int_bit) { 
+            kbc_ih();
+            kbc_print_scancode();
+            counter = 0;
+          }
+          break;
+        default: break;
+      }
+    }
+  }
+  kbc_unsubscribe_int();
+  timer_unsubscribe_int();
+  kbd_print_no_sysinb(cnt);
+  return 0;
 }
 

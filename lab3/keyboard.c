@@ -1,6 +1,6 @@
 #include "keyboard.h"
 
-int hook_id_global;
+int hook_id_global_kbd = 0;
 uint8_t scancode = 0;
 u_int8_t size = 1;
 u_int8_t scancode_array[2];
@@ -11,14 +11,15 @@ int (kbc_subscribe_int)(uint8_t * bit_no){
     return 1;
   }
   if(sys_irqsetpolicy(KEYBOARD_IRQ,IRQ_REENABLE|IRQ_EXCLUSIVE,&bit_no_int)!=0){
+    printf("error");
     return 1;
   }
-  hook_id_global = bit_no_int;
+  hook_id_global_kbd = bit_no_int;
   return 0;
 }
 
 int (kbc_unsubscribe_int)(){
-  if(sys_irqrmpolicy(&hook_id_global)!=0){
+  if(sys_irqrmpolicy(&hook_id_global_kbd)!=0){
     return 1;
   }
   return 0;
