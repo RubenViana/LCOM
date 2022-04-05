@@ -57,3 +57,18 @@ int (kbc_print_scancode)(){
     return 0;
   }
 }
+
+
+int (readStatus)(){
+  uint8_t status;
+
+  while (true) {
+    if (util_sys_inb(STATUS_REGISTER, &status) != 0) return 1;
+    
+    if ((status & OUT_BUFF_BIT) && !(status & AUX)){
+      if(util_sys_inb(OUT_BUF, &scancode) != 0) return 1;
+      if ((status & (KBC_PAR_ERROR | KBC_TO_ERROR)) != 0) return 1;
+      return 0;
+    }
+  }
+}

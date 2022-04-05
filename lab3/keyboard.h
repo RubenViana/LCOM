@@ -14,4 +14,6 @@ void (kbc_ih)();
 
 int (kbc_print_scancode)();
 
+int (readStatus)();
+
 #endif

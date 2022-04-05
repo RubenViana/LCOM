@@ -64,9 +64,16 @@ int(kbd_test_scan)() {
 }
 
 int(kbd_test_poll)() {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
 
+  while (scancode != ESCAPE_CODE) { 
+    if (readStatus() != 0) return 1;
+    kbc_print_scancode();
+  }
+
+  if (sys_outb(IN_BUF_COMMANDS, READ_COMMAND) != 0) return 1;
+  readStatus();
+  if (sys_outb(IN_BUF_COMMANDS, WRITE_COMMAND) != 0) return 1;
+  if (sys_outb(IN_BUF_ARGS, scancode | BIT(0)) != 0) return 1;
   return 1;
 }
 
