@@ -1,0 +1,183 @@
+@lcflib.a:2019, lcf_start
+  video_test_rectangle(mode, x, y, width, height, color)
+> video_test_rectangle(0x11a, 10, 10, 100, 50, 0x000000ff [255])
+  @lab5.c:52, video_test_rectangle
+    vg_init(mode)
+  > vg_init(0x11a)
+    @videocard.c:23, vg_init
+      vbe_get_mode_info(mode, &record)
+    > vbe_get_mode_info(0x11a, addr: 0xeffff438)
+    < vbe_get_mode_info(0x11a, addr: 0xeffff438 [0xe0000000, 1280x1024, 5:6:5 (16) <2.5 MiB>]) -> (ret: 0)
+    @videocard.c:44, vg_init
+      sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr)
+    > sys_privctl(SELF, SYS_PRIV_ADD_MEM, addr: 0xeffff538 [0xe0000000 - 0xe0280000 <2.5 MiB>])
+    < sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr) -> (ret: 0)
+    @videocard.c:51, vg_init
+      vm_map_phys(SELF, (void *)mr.mr_base, vram_size)
+    < vm_map_phys(SELF, addr: 0xe0000000, 2.5 MiB) -> (ret: 0xef77b000)
+    @videocard.c:68, vg_init
+      sys_int86(&r86)
+    > sys_int86(addr: 0xeffff410 [AX: 4f02, BX: 411a, CX: 0000, DX: 0000, ES: 0000, DI: 0000])
+    < sys_int86(addr: 0xeffff410 [AX: 004f, BX: 411a, CX: 0000, DX: 0000, ES: 0000, DI: 0000]) -> (ret: 0)
+  < vg_init(0x11a) -> (ret: 0xef77b000)
+  @lab5.c:56, video_test_rectangle
+    vg_draw_rectangle(x, y, width, height, color)
+  > vg_draw_rectangle(10, 10, 100, 50, 0x000000ff [255])
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 10, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 11, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 12, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 13, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 14, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 15, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 16, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 17, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 18, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 19, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 20, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 21, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 22, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 23, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 24, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 25, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 26, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 27, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 28, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 29, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 30, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 31, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 32, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 33, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 34, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 35, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 36, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 37, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 38, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 39, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 40, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 41, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 42, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 43, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 44, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 45, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 46, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 47, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 48, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 49, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 50, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 51, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 52, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 53, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 54, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 55, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 56, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 57, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 58, 100, 0x000000ff [255]) -> (ret: 0)
+    @videocard.c:109, vg_draw_rectangle
+      vg_draw_hline(x, y + i, width, color)
+    < vg_draw_hline(10, 59, 100, 0x000000ff [255]) -> (ret: 0)
+  < vg_draw_rectangle(10, 10, 100, 50, 0x000000ff [255]) -> (ret: 0)
+  @lab5.c:57, video_test_rectangle
+    sleep(7)
+  > sleep(7)
+  @lab5.c:58, video_test_rectangle
+    vg_exit()
+  < vg_exit() -> (ret: 0)
+< video_test_rectangle(0x11a, 10, 10, 100, 50, 0x000000ff [255]) -> (ret: 0)
