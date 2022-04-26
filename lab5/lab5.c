@@ -4,11 +4,15 @@
 #include <lcom/lab5.h>
 
 #include "videocard.h"
+#include "keyboard.h"
 
 #include <stdint.h>
 #include <stdio.h>
 
 // Any header files included below this line should have been created by you
+
+
+extern uint8_t scancode;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -53,8 +57,35 @@ int(video_test_rectangle)(uint16_t mode, uint16_t x, uint16_t y,
     printf("\t vg_init(): error ");
     return 1;
   }
+  
   vg_draw_rectangle(x,y,width,height,color);
-  sleep(7);
+  
+  int ipc_status;
+  bool done = false;
+  u_int8_t bit_no = 1;
+  u_int32_t irq_set = BIT(bit_no);
+  message msg;
+  kbc_subscribe_int(&bit_no);
+  while (!done) { 
+    int r = driver_receive(ANY, &msg, &ipc_status);
+    if (r != 0) {
+      printf("driver_receive failed with: %d", r);
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) { 
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE:                             
+          if (msg.m_notify.interrupts & irq_set) {
+            kbc_ih();
+            if (scancode == 0x81) done = true;
+          }
+          break;
+        default: break;
+      }
+    }
+  }
+  kbc_unsubscribe_int();
+
   if(vg_exit()!=0){
     printf("\t vg_exit(): error ");
     return 1;
