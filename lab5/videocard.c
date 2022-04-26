@@ -8,6 +8,7 @@ static unsigned h_res;
 static unsigned v_res;	        
 static unsigned bits_per_pixel;
 static unsigned bytes_per_pixel;
+static vbe_mode_info_t vbe_info;
 
 
 void *(vg_init)(uint16_t mode){   
@@ -19,6 +20,8 @@ unsigned int vram_size;
 int r;				    
 
 vbe_mode_info_t record;
+
+vbe_info = record;
 
 vbe_get_mode_info(mode,&record);
 
@@ -87,6 +90,10 @@ return video_mem;
 
 int vg_draw_pixel(uint16_t x, uint16_t y, uint32_t color){
 
+  if(x >= h_res || y >= v_res){
+    return 1;
+  }
+
   memcpy(((char*)(video_mem)) + (y * h_res + x) * bytes_per_pixel,&color,bytes_per_pixel);
 
   return 0;
@@ -109,4 +116,35 @@ int (vg_draw_rectangle)(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
     vg_draw_hline(x,y + i,width,color);
   }    
   return 0;                    
+}
+
+int vg_draw_pattern(uint16_t mode, uint8_t no_rectangles, uint32_t first, uint8_t step){
+  int x_rectangle = h_res / no_rectangles;
+  int y_rectangle = v_res / no_rectangles;
+  uint32_t color;
+  uint32_t  R , G ,B;
+
+  for (int row = 0; row < no_rectangles; row++){
+    for (int col = 0; col < no_rectangles; col++){
+      if(mode==0x105){
+        color = (first + (row * no_rectangles + col) * step) % (1 << bits_per_pixel);
+      }
+      else{
+        uint32_t redMask = 0XFFFFFFFF >> (32-vbe_info.RedMaskSize);
+        R = (((first >> vbe_info.RedFieldPosition) & redMask)  + col * step) % (1 << vbe_info.RedMaskSize);
+
+        uint32_t greenMask = 0XFFFFFFFF >> (32-vbe_info.GreenMaskSize);
+        G = (((first >> vbe_info.GreenFieldPosition) & greenMask) + row * step) % (1 << vbe_info.GreenMaskSize);
+
+        uint32_t blueMask = 0XFFFFFFFF >> (32-vbe_info.BlueMaskSize);
+        B = (((first >> vbe_info.BlueFieldPosition) & blueMask) + (col + row) * step) % (1 << vbe_info.BlueMaskSize);
+
+        color = 0 | (R << vbe_info.RedFieldPosition) | (G << vbe_info.GreenFieldPosition) | (B<<vbe_info.BlueFieldPosition);
+        
+      }
+        
+        vg_draw_rectangle(col*x_rectangle,row*y_rectangle,x_rectangle,y_rectangle,color);
+    }
+  }
+  return 0;
 }
