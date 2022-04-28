@@ -21,9 +21,10 @@ int r;
 
 vbe_mode_info_t record;
 
-vbe_info = record;
 
 vbe_get_mode_info(mode,&record);
+
+vbe_info = record;
 
 h_res = record.XResolution;
 
@@ -143,7 +144,7 @@ int vg_draw_pattern(uint16_t mode, uint8_t no_rectangles, uint32_t first, uint8_
         
       }
         
-        vg_draw_rectangle(col*x_rectangle,row*y_rectangle,x_rectangle,y_rectangle,color);
+      vg_draw_rectangle(col*x_rectangle,row*y_rectangle,x_rectangle,y_rectangle,color);
     }
   }
   return 0;
