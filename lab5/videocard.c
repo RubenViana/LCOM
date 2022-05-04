@@ -4,6 +4,8 @@
 
 static void *video_mem;  
 
+char* buffer;
+
 static unsigned h_res;	       
 static unsigned v_res;	        
 static unsigned bits_per_pixel;
@@ -41,6 +43,8 @@ if(bits_per_pixel % 8 != 0){
 bytes_per_pixel = (bits_per_pixel/8);
 
 vram_size = h_res * v_res * bytes_per_pixel;
+
+buffer = (char *) malloc(vram_size);
 
 mr.mr_base = (phys_bytes) vram_base;	
 mr.mr_limit = mr.mr_base + vram_size;  
@@ -89,13 +93,19 @@ return video_mem;
 
 }
 
+void (double_buffer)(){
+    memcpy(video_mem, buffer, h_res * v_res * bytes_per_pixel);
+}
+
 int vg_draw_pixel(uint16_t x, uint16_t y, uint32_t color){
 
   if(x >= h_res || y >= v_res){
     return 1;
   }
 
-  memcpy(((char*)(video_mem)) + (y * h_res + x) * bytes_per_pixel,&color,bytes_per_pixel);
+  //memcpy(((char*)(video_mem)) + (y * h_res + x) * bytes_per_pixel,&color,bytes_per_pixel);
+
+  memcpy(buffer + (y * h_res + x) * bytes_per_pixel,&color,bytes_per_pixel);
 
   return 0;
 }
@@ -115,7 +125,7 @@ int (vg_draw_rectangle)(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
   for (uint16_t i = 0; i < height; i++)
   {
     vg_draw_hline(x,y + i,width,color);
-  }    
+  }   
   return 0;                    
 }
 
@@ -148,4 +158,13 @@ int vg_draw_pattern(uint16_t mode, uint8_t no_rectangles, uint32_t first, uint8_
     }
   }
   return 0;
+}
+
+void(draw_sprite)(xpm_image_t img,uint8_t *sprite,int x, int y){
+  for(int i = 0; i < img.height; i++){
+    for(int j = 0; j < img.width; j++){
+      vg_draw_pixel(x + j,i + y,*(sprite));
+      sprite++;
+    }
+  }
 }
