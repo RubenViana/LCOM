@@ -190,7 +190,7 @@ int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
 int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint16_t yf,
                      int16_t speed, uint8_t fr_rate) {
   
-  timer_set_frequency(0,fr_rate);
+  timer_set_frequency(0,30);
 
   bool done = false;
   int ipc_status;
@@ -210,6 +210,7 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
   xpm_image_t img;
   uint8_t *sprite = xpm_load(xpm, type, &img);
   
+  draw_sprite(img, sprite, xi, yi);
 
   kbc_subscribe_int(&bit_no_kb);
   timer_subscribe_int(&bit_no_t);
@@ -228,6 +229,7 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
           }
           if (msg.m_notify.interrupts & irq_set_t) {
             timer_int_handler();
+            printf("%d\n",counter);
             if (!done) {
                 if(speed < 0 && counter % (-speed) == 0){
                     if (xi == xf) {
