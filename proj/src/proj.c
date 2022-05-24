@@ -34,6 +34,8 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
+typedef enum { MENU, PLAY, GAME_OVER} state_g;
+
 int(proj_main_loop)(int argc, char *argv[]) {
 
     uint16_t mode = 0x14c;
@@ -60,6 +62,12 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     timer_set_frequency(0, frequency);
 
+    state_g gameState = MENU;
+
+    while (gameState != GAME_OVER){
+        
+    }
+
     while (scancode != ESCAPE_CODE) {
         int r = driver_receive(ANY, &msg, &ipc_status);
         if (r != 0) {
@@ -73,7 +81,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     timer_int_handler();
                     vg_draw_rectangle(xPos, yPos, width, height, color);
                     double_buffer();
-                    xPos += 5;
                 }
 
                 if (msg.m_notify.interrupts & kbd_int_bit) {
