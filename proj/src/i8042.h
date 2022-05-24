@@ -31,4 +31,6 @@
 
 #define ESCAPE_CODE 0x81 
 
+#define SPACEBAR_CODE 0x39
+
 #endif

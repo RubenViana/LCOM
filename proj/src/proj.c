@@ -43,7 +43,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
     uint16_t yPos = 0;
     uint16_t width = 48;
     uint16_t height = 54;
-    uint32_t color = 0xffffffff;
+    uint32_t color1 = 0xffffffff;
+    uint32_t color2 = 0xcaaccaca;
 
     if (vg_init(mode) == NULL) {
     printf("\t vg_init(): error ");
@@ -64,11 +65,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     state_g gameState = MENU;
 
-    while (gameState != GAME_OVER){
-        
-    }
-
-    while (scancode != ESCAPE_CODE) {
+    while (gameState != GAME_OVER) {
         int r = driver_receive(ANY, &msg, &ipc_status);
         if (r != 0) {
             printf("driver_receive failed with: %d", r);
@@ -79,12 +76,38 @@ int(proj_main_loop)(int argc, char *argv[]) {
             case HARDWARE:                                    /* hardware interrupt notification */
                 if (msg.m_notify.interrupts & timer0_int_bit) { /* subscribed interrupt */
                     timer_int_handler();
-                    vg_draw_rectangle(xPos, yPos, width, height, color);
-                    double_buffer();
+                    switch(gameState){
+                        case MENU:
+                            vg_draw_rectangle(xPos+100, yPos+100, width, height, color2);
+                            double_buffer();
+                            break;
+                        case PLAY:
+                            vg_draw_rectangle(xPos, yPos, width, height, color1);
+                            double_buffer();
+                            break;
+                        default:
+                            break;
+                    }
                 }
-
                 if (msg.m_notify.interrupts & kbd_int_bit) {
                     kbc_ih();
+                    switch(gameState){
+                        case MENU:
+                            if(scancode == ESCAPE_CODE){
+                                gameState = GAME_OVER;
+                            }
+                            if(scancode == SPACEBAR_CODE){
+                                gameState = PLAY;
+                            }
+                            break;
+                        case PLAY:
+                            if(scancode == ESCAPE_CODE){
+                                gameState = MENU;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 break;
             default:
