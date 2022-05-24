@@ -6,6 +6,7 @@
 #include "i8042.h"
 #include "mouse.h"
 
+
 int hook_id_mouse;
 uint8_t packet;
 bool synced = false;
@@ -13,6 +14,10 @@ struct packet packet_struct;
 int mouse_counter = 0;
 uint32_t total_packets = 0;
 bool reading_error = false;
+bool gesture_detected = false;
+mouse_event_t event;
+bool packet_read = false;
+
 
 int(mouse_subscribe)(uint8_t * bit_no){
     int bit_no_int = *bit_no;
@@ -80,6 +85,7 @@ void (organize_packets)(){
     if(mouse_counter==0){
         packet_struct.bytes[0] = packet;
         mouse_counter++;
+        packet_read = false;
         return;
     }
 
@@ -144,6 +150,22 @@ void (organize_packets)(){
 
         total_packets++;
         mouse_print_packet(&packet_struct);
+        
+        if(packet_struct.delta_x!=0 || packet_struct.delta_y != 0){
+            event.type = MOVE;
+        }
+        if(packet_struct.lb){
+            event.type = LBDOWN;
+        }
+        if(packet_struct.rb){
+            event.type = RBDOWN;
+        }
+        event.moveX = packet_struct.delta_x;
+        event.moveY = packet_struct.delta_y;
+        event.lbdown = packet_struct.lb;
+        event.mbdown = packet_struct.mb;
+        event.rbdown = packet_struct.rb;
+        packet_read = true;
     }
 }
 
@@ -189,4 +211,63 @@ int(disable_mouse_data)(){
   if (write_argument_to_mouse(DISABLE_MOUSE_DATA)!= 0) return 1;
   if (write_argument_to_mouse(SET_STREAM_MODE)!= 0) return 1;
   return 0;
+}
+
+
+void (mouse_check_pattern)(mouse_event_t evt,uint8_t x_len,uint8_t tolerance) {
+    static state_t pattern_state = INIT; // initial state; keep state
+    static int lineXLen = 0; // line movement in X 
+    switch (pattern_state) {
+        case INIT:
+            if ((evt.type == LBDOWN && !evt.rbdown && !evt.mbdown)
+                    || (evt.type == MOVE && evt.lbdown && !evt.rbdown
+                        && !evt.mbdown)) { 
+                            lineXLen = 0; pattern_state = DRAW_UP;
+                    } //else we stay on INIT
+                    break;
+        case DRAW_UP:
+            if (evt.type == MOVE) {
+                lineXLen += evt.moveX;
+                if (!evt.lbdown && !evt.mbdown && evt.rbdown && lineXLen >= x_len) { // although a move type, we allow the button change
+                    pattern_state = DRAW_DOWN; }
+                else if (evt.moveX + tolerance <= 0 || evt.moveY + tolerance <= 0 || (evt.moveY + tolerance / evt.moveX + tolerance) < MIN_SLOPE || !evt.lbdown || evt.mbdown || (evt.rbdown && lineXLen < x_len)) { // note that lifting left button and pressing right is handled before
+                        pattern_state = INIT; }
+            } // evt.type == MOVE
+            else if (evt.type == RBDOWN) { // change the line draw
+                if (!evt.lbdown && !evt.mbdown && // it was a right click, but we're extra careful
+                    evt.rbdown && lineXLen >= x_len) { 
+                        lineXLen = 0;
+                        pattern_state = DRAW_DOWN;
+                }
+                else { // does not comply, right click with other or length of UP too short
+                    pattern_state = INIT; }
+            } // evt.type == RBDOWN
+            else { // other event type goes to restart
+                pattern_state = INIT; }
+        break; // from case DRAW_UP           
+
+        case DRAW_DOWN: 
+            if (evt.type == MOVE) {
+                lineXLen += evt.moveX;
+                if (lineXLen >= x_len && evt.rbdown && !evt.mbdown && !evt.rbdown) { 
+                    pattern_state = DETECTED; }
+                else if (evt.moveX + tolerance <= 0 || evt.moveY - tolerance >= 0 || (evt.moveY - tolerance / evt.moveX + tolerance) > -MIN_SLOPE || evt.lbdown || evt.mbdown || (!evt.rbdown && lineXLen < x_len)) { 
+                        pattern_state = INIT; }
+            }
+            else {
+                pattern_state = INIT; }
+        break;
+
+        case DETECTED:
+            if( !evt.rbdown && !evt.mbdown && !evt.rbdown){
+                gesture_detected = true;
+            }
+            else if(evt.rbdown && !evt.mbdown && !evt.lbdown){
+                break;
+            }
+            else{
+                pattern_state = INIT;
+            }
+        break;
+    } 
 }
