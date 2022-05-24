@@ -1,12 +1,10 @@
 #include <lcom/lcf.h>
 
-#include "videocard.h"
 #include "keyboard.h"
-
+#include "videocard.h"
 
 #include <stdint.h>
 #include <stdio.h>
-
 
 extern int counter;
 extern uint8_t scancode;
@@ -36,49 +34,68 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
+int(proj_main_loop)(int argc, char *argv[]) {
 
-int(proj_main_loop)(int argc, char* argv[])
-{
-  int ipc_status;
-  u_int8_t bit_no1 = 1;
-  u_int8_t bit_no0 = 0;
-  u_int32_t timer0_int_bit = BIT(bit_no0);
-  u_int32_t kbd_int_bit = BIT(bit_no1);
-  message msg;
-  kbc_subscribe_int(&bit_no1);
-  timer_subscribe_int(&bit_no0);
-  int frequency = 60;
+    uint16_t mode = 0x14c;
+    uint16_t xPos = 0;
+    uint16_t yPos = 0;
+    uint16_t width = 48;
+    uint16_t height = 54;
+    uint32_t color = 0xffffffff;
 
-
-  timer_set_frequency(0,frequency);
-
-  while( scancode != ESCAPE_CODE) {
-    int r = driver_receive(ANY, &msg, &ipc_status);
-    if ( r != 0 ) { 
-        printf("driver_receive failed with: %d", r);
-        continue;
+    if (vg_init(mode) == NULL) {
+    printf("\t vg_init(): error ");
+    return 1;
     }
-    if (is_ipc_notify(ipc_status)) { /* received notification */
-        switch (_ENDPOINT_P(msg.m_source)) {
-            case HARDWARE: /* hardware interrupt notification */				
+
+    int ipc_status;
+    u_int8_t bit_no1 = 1;
+    u_int8_t bit_no0 = 0;
+    u_int32_t timer0_int_bit = BIT(bit_no0);
+    u_int32_t kbd_int_bit = BIT(bit_no1);
+    message msg;
+    kbc_subscribe_int(&bit_no1);
+    timer_subscribe_int(&bit_no0);
+    int frequency = 60;
+
+    timer_set_frequency(0, frequency);
+
+    while (scancode != ESCAPE_CODE) {
+        int r = driver_receive(ANY, &msg, &ipc_status);
+        if (r != 0) {
+            printf("driver_receive failed with: %d", r);
+            continue;
+        }
+        if (is_ipc_notify(ipc_status)) { /* received notification */
+            switch (_ENDPOINT_P(msg.m_source)) {
+            case HARDWARE:                                    /* hardware interrupt notification */
                 if (msg.m_notify.interrupts & timer0_int_bit) { /* subscribed interrupt */
-                  timer_int_handler();
+                    timer_int_handler();
+                    vg_draw_rectangle(xPos, yPos, width, height, color);
+                    double_buffer();
+                    xPos += 5;
                 }
-                if (msg.m_notify.interrupts & kbd_int_bit) { 
+
+                if (msg.m_notify.interrupts & kbd_int_bit) {
                     kbc_ih();
                 }
                 break;
             default:
-                break; /* no other notifications expected: do nothing */	
+                break; /* no other notifications expected: do nothing */
+            }
         }
-    } else { /* received a standard message, not a notification */
-        /* no standard messages expected: do nothing */
+        else { /* received a standard message, not a notification */
+                /* no standard messages expected: do nothing */
+        }
     }
- }
 
-  kbc_unsubscribe_int();
-  timer_unsubscribe_int();
+    if (vg_exit() != 0) {
+        printf("\t vg_exit(): error ");
+        return 1;
+    }
 
+    kbc_unsubscribe_int();
+    timer_unsubscribe_int();
 
-  return 0;
+    return 0;
 }
