@@ -161,11 +161,20 @@ int vg_draw_pattern(uint16_t mode, uint8_t no_rectangles, uint32_t first, uint8_
 }
 
 void(draw_sprite)(xpm_image_t img,uint8_t *sprite,int x, int y){
-  printf(" x:%d  y : %d\n",x,y);
   for(int i = 0; i < img.height; i++){
     for(int j = 0; j < img.width; j++){
       vg_draw_pixel(x + j,i + y,*(sprite));
       sprite++;
+    }
+  }
+}
+
+
+void draw_sprite_proj (Sprite sprite){
+  for(int i = 0; i < sprite.height; i++){
+    for(int j = 0; j < sprite.width; j++){
+      vg_draw_pixel(sprite.x + j,i + sprite.y,*(sprite.map));
+      (sprite.map)++;
     }
   }
 }

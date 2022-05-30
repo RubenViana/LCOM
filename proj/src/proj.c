@@ -1,7 +1,13 @@
+#define __LCOM_OPTIMIZED__
 #include <lcom/lcf.h>
+#include <lcom/xpm.h>
+#include <lcom/pixmap.h>
+
 
 #include "keyboard.h"
 #include "videocard.h"
+#include "sprites.h"
+#include "assets/penguin.xpm"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -38,14 +44,19 @@ typedef enum { MENU, PLAY, GAME_OVER} state_g;
 
 int(proj_main_loop)(int argc, char *argv[]) {
 
-    uint16_t mode = 0x14c;
+    uint16_t mode = 0x105;
     uint16_t xPos = 0;
     uint16_t yPos = 0;
     uint16_t width = 48;
     uint16_t height = 54;
-    uint32_t color1 = 0xffffffff;
-    uint32_t color2 = 0xcaaccaca;
+    //uint32_t color1 = 0xffffff;
+    //uint32_t color2 = 0xaccaca;
+    //uint32_t color_black = 0x000000;
 
+    enum xpm_image_type type = XPM_INDEXED;
+    xpm_image_t img;
+    uint8_t *sprite = xpm_load(penguin, type, &img);
+     
     if (vg_init(mode) == NULL) {
     printf("\t vg_init(): error ");
     return 1;
@@ -78,11 +89,14 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     timer_int_handler();
                     switch(gameState){
                         case MENU:
-                            vg_draw_rectangle(xPos+100, yPos+100, width, height, color2);
+                            vg_draw_rectangle(0, 0, 1024, 768, 3);
+                            vg_draw_rectangle(xPos+100, yPos+100, width, height, 10);
                             double_buffer();
                             break;
                         case PLAY:
-                            vg_draw_rectangle(xPos, yPos, width, height, color1);
+                            vg_draw_rectangle(0, 0, 1024, 768, 3);
+                            //vg_draw_rectangle(xPos, yPos, width, height, 1);
+                            draw_sprite(img,sprite,100,500);
                             double_buffer();
                             break;
                         default:
