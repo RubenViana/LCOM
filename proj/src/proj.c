@@ -51,11 +51,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
     uint16_t height = 54;
     uint32_t color1 = 0xffffff;
     //uint32_t color2 = 0xaccaca;
-    uint32_t color_black = 0x000000;
+    uint32_t color_black = 0x0000ff;
 
     enum xpm_image_type type = XPM_8_8_8_8;
     xpm_image_t img;
-    uint8_t *sprite = xpm_load(res_1024x768, type, &img);
+    uint8_t *sprite = xpm_load(minix3_xpm, type, &img);
 
      
     if (vg_init(mode) == NULL) {
@@ -96,8 +96,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
                             break;
                         case PLAY:
                             vg_draw_rectangle(0, 0, 1152, 864, color_black);
-                            //vg_draw_rectangle(xPos, yPos, width, height, color2);
-                            sprite++;
                             draw_sprite(img,sprite,100,100);
                             double_buffer();
                             break;
