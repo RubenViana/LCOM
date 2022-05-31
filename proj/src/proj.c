@@ -57,12 +57,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
     xpm_image_t img;
     uint8_t *sprite = xpm_load(res_1024x768, type, &img);
 
-    for(int i = 0; i < img.height; i++){
-        for(int j = 0; j < img.width; j++){
-            printf("%d:%d:%d\n",i,j,*(sprite));
-            sprite++;
-        }
-    }
      
     if (vg_init(mode) == NULL) {
     printf("\t vg_init(): error ");

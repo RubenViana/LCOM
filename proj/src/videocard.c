@@ -171,7 +171,7 @@ void(draw_sprite)(xpm_image_t img,uint8_t *sprite,int x, int y){
       green = *(temp_sprite + 1) & 0xff;
       blue = *(temp_sprite) & 0xff;
       color = byte1 << 24 | red << 16 | green << 8 | blue;
-      if(TRANSPARENCY_COLOR_8_8_8_8 != color){
+      if(xpm_transparency_color(XPM_8_8_8_8) != color){
         vg_draw_pixel(x + j,i + y,color);
       }
       temp_sprite+=4;
