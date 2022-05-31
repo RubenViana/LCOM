@@ -44,18 +44,25 @@ typedef enum { MENU, PLAY, GAME_OVER} state_g;
 
 int(proj_main_loop)(int argc, char *argv[]) {
 
-    uint16_t mode = 0x105;
+    uint16_t mode = 0x14C;
     uint16_t xPos = 0;
     uint16_t yPos = 0;
     uint16_t width = 48;
     uint16_t height = 54;
-    //uint32_t color1 = 0xffffff;
+    uint32_t color1 = 0xffffff;
     //uint32_t color2 = 0xaccaca;
-    //uint32_t color_black = 0x000000;
+    uint32_t color_black = 0x000000;
 
-    enum xpm_image_type type = XPM_INDEXED;
+    enum xpm_image_type type = XPM_8_8_8_8;
     xpm_image_t img;
-    uint8_t *sprite = xpm_load(penguin, type, &img);
+    uint8_t *sprite = xpm_load(res_1024x768, type, &img);
+
+    for(int i = 0; i < img.height; i++){
+        for(int j = 0; j < img.width; j++){
+            printf("%d:%d:%d\n",i,j,*(sprite));
+            sprite++;
+        }
+    }
      
     if (vg_init(mode) == NULL) {
     printf("\t vg_init(): error ");
@@ -89,14 +96,15 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     timer_int_handler();
                     switch(gameState){
                         case MENU:
-                            vg_draw_rectangle(0, 0, 1024, 768, 3);
-                            vg_draw_rectangle(xPos+100, yPos+100, width, height, 10);
+                            vg_draw_rectangle(0, 0, 1152, 864, color_black);
+                            vg_draw_rectangle(xPos+100, yPos+100, width, height, color1);
                             double_buffer();
                             break;
                         case PLAY:
-                            vg_draw_rectangle(0, 0, 1024, 768, 3);
-                            //vg_draw_rectangle(xPos, yPos, width, height, 1);
-                            draw_sprite(img,sprite,100,500);
+                            vg_draw_rectangle(0, 0, 1152, 864, color_black);
+                            //vg_draw_rectangle(xPos, yPos, width, height, color2);
+                            sprite++;
+                            draw_sprite(img,sprite,100,100);
                             double_buffer();
                             break;
                         default:

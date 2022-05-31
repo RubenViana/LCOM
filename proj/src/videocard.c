@@ -1,6 +1,7 @@
 #include <lcom/lcf.h>
 #include <lcom/lab5.h>
 #include "videocard.h"
+#include <lcom/xpm.h>
 
 static void *video_mem;  
 
@@ -161,14 +162,22 @@ int vg_draw_pattern(uint16_t mode, uint8_t no_rectangles, uint32_t first, uint8_
 }
 
 void(draw_sprite)(xpm_image_t img,uint8_t *sprite,int x, int y){
+  uint32_t color,red,green,blue,byte1;
+  uint8_t* temp_sprite = sprite;
   for(int i = 0; i < img.height; i++){
     for(int j = 0; j < img.width; j++){
-      vg_draw_pixel(x + j,i + y,*(sprite));
-      sprite++;
+      byte1 = *(temp_sprite + 3) & 0xff;
+      red = *(temp_sprite + 2) & 0xff;
+      green = *(temp_sprite + 1) & 0xff;
+      blue = *(temp_sprite) & 0xff;
+      color = byte1 << 24 | red << 16 | green << 8 | blue;
+      if(TRANSPARENCY_COLOR_8_8_8_8 != color){
+        vg_draw_pixel(x + j,i + y,color);
+      }
+      temp_sprite+=4;
     }
   }
 }
-
 
 void draw_sprite_proj (Sprite sprite){
   for(int i = 0; i < sprite.height; i++){
