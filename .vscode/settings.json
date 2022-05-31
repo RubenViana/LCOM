@@ -6,6 +6,7 @@
         "pixmap.h": "c",
         "stddef.h": "c",
         "*.xpm": "c",
-        "xpm.h": "c"
+        "xpm.h": "c",
+        "videocard.h": "c"
     }
 }

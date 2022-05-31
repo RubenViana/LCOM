@@ -33,4 +33,12 @@
 
 #define SPACEBAR_CODE 0x39
 
+#define KEY_A_CODE 0x1E
+
+#define KEY_W_CODE 0x11
+
+#define KEY_S_CODE 0x1F
+
+#define KEY_D_CODE 0x20
+
 #endif

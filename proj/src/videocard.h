@@ -2,6 +2,7 @@
 #define VIDEOCARD_H_
 
 #include <lcom/lcf.h>
+#include <lcom/xpm.h>
 #include "sprites.h"
 
 void *(vg_init)(uint16_t mode);

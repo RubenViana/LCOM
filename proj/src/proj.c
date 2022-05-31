@@ -1,12 +1,8 @@
-#define __LCOM_OPTIMIZED__
 #include <lcom/lcf.h>
-#include <lcom/xpm.h>
-#include <lcom/pixmap.h>
-
 
 #include "keyboard.h"
 #include "videocard.h"
-#include "sprites.h"
+
 #include "assets/penguin.xpm"
 
 #include <stdint.h>
@@ -44,6 +40,7 @@ typedef enum { MENU, PLAY, GAME_OVER} state_g;
 
 int(proj_main_loop)(int argc, char *argv[]) {
 
+
     uint16_t mode = 0x14C;
     uint16_t xPos = 0;
     uint16_t yPos = 0;
@@ -53,10 +50,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
     //uint32_t color2 = 0xaccaca;
     uint32_t color_black = 0x0000ff;
 
-    enum xpm_image_type type = XPM_8_8_8_8;
-    xpm_image_t img;
-    uint8_t *sprite = xpm_load(minix3_xpm, type, &img);
-
+    
+    Sprite* sp = create_sprite(minix3_xpm,100,200);
      
     if (vg_init(mode) == NULL) {
     printf("\t vg_init(): error ");
@@ -71,7 +66,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     message msg;
     kbc_subscribe_int(&bit_no1);
     timer_subscribe_int(&bit_no0);
-    int frequency = 60;
+    int frequency = 30;
 
     timer_set_frequency(0, frequency);
 
@@ -96,7 +91,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                             break;
                         case PLAY:
                             vg_draw_rectangle(0, 0, 1152, 864, color_black);
-                            draw_sprite(img,sprite,100,100);
+                            draw_sprite_proj(*sp);
                             double_buffer();
                             break;
                         default:
@@ -110,13 +105,25 @@ int(proj_main_loop)(int argc, char *argv[]) {
                             if(scancode == ESCAPE_CODE){
                                 gameState = GAME_OVER;
                             }
-                            if(scancode == SPACEBAR_CODE){
+                            else if(scancode == SPACEBAR_CODE){
                                 gameState = PLAY;
                             }
                             break;
                         case PLAY:
                             if(scancode == ESCAPE_CODE){
                                 gameState = MENU;
+                            }
+                            else if(scancode == KEY_A_CODE){
+                                sp->x -= 5;
+                            }
+                            else if(scancode == KEY_W_CODE){
+                                sp->y -= 5;
+                            }
+                            else if(scancode == KEY_S_CODE){
+                                sp->y += 5;
+                            }
+                            else if(scancode == KEY_D_CODE){
+                                sp->x += 5;
                             }
                             break;
                         default:
