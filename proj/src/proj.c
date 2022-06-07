@@ -9,7 +9,7 @@
 #include "assets/menu_background.xpm"
 #include "assets/dooper_right.xpm"
 #include "assets/dooper_left.xpm"
-
+#include "assets/goomba_right.xpm"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -23,7 +23,19 @@ extern int mouse_counter;
 extern bool packet_read;
 extern struct packet packet_struct;
 
+extern unsigned h_res;	       
+extern unsigned v_res;
+
 Sprite* mouse;
+Sprite* play_background;
+Sprite* menu_background;
+Sprite* player;
+Sprite* goombas[10]; 
+
+static int BLOCK_WIDTH = 72;
+static int BLOCK_HEIGHT = 54;
+
+typedef enum { MENU, PLAY, GAME_OVER} state_g;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -49,19 +61,144 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-typedef enum { MENU, PLAY, GAME_OVER} state_g;
+void updateScreen (state_g gameState) {
+    switch(gameState){
+        case MENU:
+            draw_sprite_proj(*menu_background);
+            double_buffer();
+            break;
+        case PLAY:
+            draw_sprite_proj(*play_background);
+            draw_sprite_proj(*player);
+            draw_sprite_proj(*mouse);
+            for (int i = 0; i < 10; i++){
+                if (goombas[i]->x > 0 && goombas[i]->y > 0)
+                    draw_sprite_proj(*goombas[i]);
+            }
+            double_buffer();
+            break;
+        default:
+            break;
+    }
+}
+
+void checkCollisions(Sprite *sp){
+
+    //collisions with all
+    if(sp->x + sp->width > ((int)h_res - BLOCK_WIDTH)) {
+        sp->x = ((int)h_res - BLOCK_WIDTH) - sp->width;
+    }else if(sp->x < (0 + BLOCK_WIDTH)){
+        sp->x = BLOCK_WIDTH;
+    }else if(sp->y + sp->height > ((int)v_res + BLOCK_HEIGHT)){
+        sp->y = ((int)v_res + BLOCK_HEIGHT) - sp->height;
+    }
+    else if(sp->y < (0 + BLOCK_HEIGHT)){
+        sp->y = BLOCK_HEIGHT;
+    }
+    
+    /*
+    //collisions with goombas
+    for (int i = 0; i < 10; i++){
+        if(sp->x + sp->width > (goombas[i]->x - goombas[i]->width)) {
+            sp->x = (goombas[i]->x - goombas[i]->width) - sp->width;
+        }else if(sp->x < (goombas[i]->x)){
+            sp->x = goombas[i]->x + goombas[i]->width;
+        }else if(sp->y + sp->height > (goombas[i]->y + goombas[i]->height)){
+            sp->y = (goombas[i]->y + goombas[i]->height) - sp->height;
+        }
+        else if(sp->y < (goombas[i]->y)){
+            sp->y = goombas[i]->y;
+        }
+    }
+    */
+}
+
+void moveGoombas() {
+    for (int i = 0; i < 10; i++){
+        if (goombas[i]->x > 0 && goombas[i]->y > 0) {
+            if (goombas[i]->x < player->x ) {
+                goombas[i]->x ++;
+            }
+            if (goombas[i]->x > player->x ) {
+                goombas[i]->x --;
+            }
+            if (goombas[i]->y < player->y ) {
+                goombas[i]->y ++;
+            }
+            if (goombas[i]->y > player->y ) {
+                goombas[i]->y --;
+            }
+        }
+    }
+}
+
+void updateStateKbd (state_g *gameState){
+    switch(*gameState){
+        case MENU:
+            if(scancode == ESCAPE_CODE){
+                *gameState = GAME_OVER;
+            }
+            else if(scancode == SPACEBAR_CODE){
+                *gameState = PLAY;
+            }
+            break;
+        case PLAY:
+            if(scancode == ESCAPE_CODE){
+                *gameState = MENU;
+            }
+            else if(scancode == KEY_A_CODE){
+                player->x -= 10;
+                player = create_sprite(dooper_left_xpm, player->x, player->y);
+            }
+            else if(scancode == KEY_W_CODE){
+                player->y -= 10;
+            }
+            else if(scancode == KEY_S_CODE){
+                player->y += 10;
+            }
+            else if(scancode == KEY_D_CODE){
+                player->x += 10;
+                player = create_sprite(dooper_right_xpm, player->x, player->y);
+            }
+
+            checkCollisions(player);
+            
+
+            break;
+        default:
+            break;
+    }
+}
+
+void updateStateMouse (state_g *gameState){
+    if (reading_error == true && mouse_counter != 2) {
+        return;
+    }
+    else if (reading_error == true && mouse_counter == 2) {
+        reading_error = false;
+    }
+    else{
+        organize_packets();
+    }
+}
 
 int(proj_main_loop)(int argc, char *argv[]) {
 
-
     uint16_t mode = 0x14C;
 
-    Sprite* play_background = create_sprite(background_xpm,0,0);
-    Sprite* menu_background = create_sprite(menu_background_xpm,0,0);
-    Sprite* player = create_sprite(dooper_right_xpm,100,200);
+    play_background = create_sprite(background_xpm,0,0);
+    menu_background = create_sprite(menu_background_xpm,0,0);
+    player = create_sprite(dooper_right_xpm,100,200);
     mouse = create_sprite(ubuntu_xpm,500,500);
     
-     
+    for (int i = 0; i < 10; i++){
+        Sprite* goomba = create_sprite(goomba_right_xpm, -100, -100);
+        goombas[i] = goomba;
+    }
+
+    goombas[0]->x = 800;
+    goombas[0]->y = 200;
+
     if (vg_init(mode) == NULL) {
     printf("\t vg_init(): error ");
     return 1;
@@ -100,66 +237,16 @@ int(proj_main_loop)(int argc, char *argv[]) {
             case HARDWARE:                                    /* hardware interrupt notification */
                 if (msg.m_notify.interrupts & timer0_int_bit) { /* subscribed interrupt */
                     timer_int_handler();
-                    switch(gameState){
-                        case MENU:
-                            draw_sprite_proj(*menu_background);
-                            double_buffer();
-                            break;
-                        case PLAY:
-                            draw_sprite_proj(*play_background);
-                            draw_sprite_proj(*player);
-                            draw_sprite_proj(*mouse);
-                            double_buffer();
-                            break;
-                        default:
-                            break;
-                    }
+                    moveGoombas();
+                    updateScreen(gameState);
                 }
                 if (msg.m_notify.interrupts & kbd_int_bit) {
                     kbc_ih();
-                    switch(gameState){
-                        case MENU:
-                            if(scancode == ESCAPE_CODE){
-                                gameState = GAME_OVER;
-                            }
-                            else if(scancode == SPACEBAR_CODE){
-                                gameState = PLAY;
-                            }
-                            break;
-                        case PLAY:
-                            if(scancode == ESCAPE_CODE){
-                                gameState = MENU;
-                            }
-                            else if(scancode == KEY_A_CODE){
-                                player->x -= 10;
-                                player = create_sprite(dooper_left_xpm, player->x, player->y);
-                            }
-                            else if(scancode == KEY_W_CODE){
-                                player->y -= 10;
-                            }
-                            else if(scancode == KEY_S_CODE){
-                                player->y += 10;
-                            }
-                            else if(scancode == KEY_D_CODE){
-                                player->x += 10;
-                                player = create_sprite(dooper_right_xpm, player->x, player->y);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                    updateStateKbd(&gameState);
                 }
                 if (msg.m_notify.interrupts & mouse_int_bit) {
                     mouse_ih();
-                    if (reading_error == true && mouse_counter != 2) {
-                        continue;
-                    }
-                    else if (reading_error == true && mouse_counter == 2) {
-                        reading_error = false;
-                    }
-                    else{
-                        organize_packets();
-                    }
+                    updateStateMouse(&gameState);
                 }
                 break;
             default:
