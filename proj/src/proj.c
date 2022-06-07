@@ -32,7 +32,7 @@ Sprite* mouse;
 Sprite* play_background;
 Sprite* menu_background;
 Sprite* player;
-Sprite* goombas[10]; 
+Sprite* goombas[12]; 
 
 static int BLOCK_WIDTH = 72;
 static int BLOCK_HEIGHT = 54;
@@ -63,8 +63,124 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-void updateScreen (state_g gameState) {
-    switch(gameState){
+void initializeGame(){
+
+    player->x = 550;
+    player->y = 400;
+    
+    goombas[0]->x = 504;
+    goombas[0]->y = 10;
+
+    goombas[1]->x = 577;
+    goombas[1]->y = 10;
+
+    goombas[2]->x = 650;
+    goombas[2]->y = 10;
+
+    goombas[3]->x = 1100;
+    goombas[3]->y = 378;
+
+    goombas[4]->x = 1100;
+    goombas[4]->y = 433;
+
+    goombas[5]->x = 1100;
+    goombas[5]->y = 488;
+
+    goombas[6]->x = 504;
+    goombas[6]->y = 824;
+
+    goombas[7]->x = 577;
+    goombas[7]->y = 824;
+
+    goombas[8]->x = 650;
+    goombas[8]->y = 824;
+
+    goombas[9]->x = 10;
+    goombas[9]->y = 378;
+
+    goombas[10]->x = 10;
+    goombas[10]->y = 433;
+
+    goombas[11]->x = 10;
+    goombas[11]->y = 488;
+}
+
+bool checkGoombaCollisions(int i){
+    //collision between goombas
+        for(int j = 0; j < 12;j++){
+            if(i!=j){
+                if(goombas[i]->x < goombas[j]->x + goombas[j]->width &&
+                goombas[i]->x + goombas[i]->width > goombas[j]->x &&
+                goombas[i]->y < goombas[j]->y + goombas[j]->height &&
+                goombas[i]->y + goombas[i]->height > goombas[j]->y){
+                    return true;
+                }
+            }
+        }
+        return false;
+}
+
+void checkCollisions(Sprite *sp,state_g *gameState){
+
+    //collisions with all
+    if(sp->x + sp->width > ((int)h_res - BLOCK_WIDTH)) {
+        sp->x = ((int)h_res - BLOCK_WIDTH) - sp->width;
+    }else if(sp->x < (0 + BLOCK_WIDTH)){
+        sp->x = BLOCK_WIDTH;
+    }else if(sp->y + sp->height > ((int)v_res - BLOCK_HEIGHT)){
+        sp->y = ((int)v_res - BLOCK_HEIGHT) - sp->height;
+    }
+    else if(sp->y < (0 + BLOCK_HEIGHT)){
+        sp->y = BLOCK_HEIGHT;
+    }
+    
+    
+    //collisions with goombas
+    for (int i = 0; i < 12; i++){
+        if(goombas[i]->x + 23 < sp->x + sp->width &&
+            goombas[i]->x + goombas[i]->width - 23> sp->x &&
+            goombas[i]->y + 23 < sp->y + sp->height &&
+            goombas[i]->y + goombas[i]->height - 23> sp->y){
+                    *gameState = MENU;
+                    break;
+                }
+    }
+    
+}
+
+void moveGoombas() {
+    for (int i = 0; i < 12; i++){
+        if (goombas[i]->x > 0 && goombas[i]->y > 0) {
+            if (goombas[i]->x < player->x ) {
+                goombas[i]->x ++;
+                if(checkGoombaCollisions(i)){
+                    goombas[i]->x --;
+                }
+            }
+            if (goombas[i]->x > player->x ) {
+                goombas[i]->x --;
+                if(checkGoombaCollisions(i)){
+                    goombas[i]->x ++;
+                }
+            }
+            if (goombas[i]->y < player->y ) {
+                goombas[i]->y ++;
+                if(checkGoombaCollisions(i)){
+                    goombas[i]->y --;
+                }
+            }
+            if (goombas[i]->y > player->y ) {
+                goombas[i]->y --;
+                if(checkGoombaCollisions(i)){
+                    goombas[i]->y ++;
+                }
+            }
+        }
+    }
+}
+
+void updateScreen (state_g *gameState) {
+    switch(*gameState){
         case MENU:
             draw_sprite_proj(*menu_background);
             draw_sprite_proj(*mouse);
@@ -72,66 +188,18 @@ void updateScreen (state_g gameState) {
             break;
         case PLAY:
             draw_sprite_proj(*play_background);
-            for (int i = 0; i < 10; i++){
+            for (int i = 0; i < 12; i++){
                 if (goombas[i]->x > 0 && goombas[i]->y > 0)
                     draw_sprite_proj(*goombas[i]);
             }
             draw_sprite_proj(*player);
             draw_sprite_proj(*mouse);
             double_buffer();
+            moveGoombas();
+            checkCollisions(player,gameState);
             break;
         default:
             break;
-    }
-}
-
-void checkCollisions(Sprite *sp){
-
-    //collisions with all
-    if(sp->x + sp->width > ((int)h_res - BLOCK_WIDTH)) {
-        sp->x = ((int)h_res - BLOCK_WIDTH) - sp->width;
-    }else if(sp->x < (0 + BLOCK_WIDTH)){
-        sp->x = BLOCK_WIDTH;
-    }else if(sp->y + sp->height > ((int)v_res + BLOCK_HEIGHT)){
-        sp->y = ((int)v_res + BLOCK_HEIGHT) - sp->height;
-    }
-    else if(sp->y < (0 + BLOCK_HEIGHT)){
-        sp->y = BLOCK_HEIGHT;
-    }
-    
-    /*
-    //collisions with goombas
-    for (int i = 0; i < 10; i++){
-        if(sp->x + sp->width > (goombas[i]->x - goombas[i]->width)) {
-            sp->x = (goombas[i]->x - goombas[i]->width) - sp->width;
-        }else if(sp->x < (goombas[i]->x)){
-            sp->x = goombas[i]->x + goombas[i]->width;
-        }else if(sp->y + sp->height > (goombas[i]->y + goombas[i]->height)){
-            sp->y = (goombas[i]->y + goombas[i]->height) - sp->height;
-        }
-        else if(sp->y < (goombas[i]->y)){
-            sp->y = goombas[i]->y;
-        }
-    }
-    */
-}
-
-void moveGoombas() {
-    for (int i = 0; i < 10; i++){
-        if (goombas[i]->x > 0 && goombas[i]->y > 0) {
-            if (goombas[i]->x < player->x ) {
-                goombas[i]->x ++;
-            }
-            if (goombas[i]->x > player->x ) {
-                goombas[i]->x --;
-            }
-            if (goombas[i]->y < player->y ) {
-                goombas[i]->y ++;
-            }
-            if (goombas[i]->y > player->y ) {
-                goombas[i]->y --;
-            }
-        }
     }
 }
 
@@ -144,6 +212,7 @@ void updateStateKbd (state_g *gameState){
             else if(scancode == SPACEBAR_CODE){
                 *gameState = PLAY;
                 mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y);
+                initializeGame();
             }
             break;
         case PLAY:
@@ -152,21 +221,21 @@ void updateStateKbd (state_g *gameState){
                 mouse = create_sprite(mouse_xpm, mouse->x, mouse->y);
             }
             else if(scancode == KEY_A_CODE){
-                player->x -= 10;
+                player->x -= 15;
                 player = create_sprite(dooper_left_xpm, player->x, player->y);
             }
             else if(scancode == KEY_W_CODE){
-                player->y -= 10;
+                player->y -= 15;
             }
             else if(scancode == KEY_S_CODE){
-                player->y += 10;
+                player->y += 15;
             }
             else if(scancode == KEY_D_CODE){
-                player->x += 10;
+                player->x += 15;
                 player = create_sprite(dooper_right_xpm, player->x, player->y);
             }
 
-            checkCollisions(player);
+            checkCollisions(player,gameState);
             
 
             break;
@@ -193,16 +262,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     play_background = create_sprite(background_xpm,0,0);
     menu_background = create_sprite(menu_background_xpm,0,0);
-    player = create_sprite(dooper_right_xpm,100,200);
+    player = create_sprite(dooper_right_xpm,550,400);
     mouse = create_sprite(mouse_xpm,500,500);
     
-    for (int i = 0; i < 10; i++){
+    for (int i = 0; i < 12; i++){
         Sprite* goomba = create_sprite(goomba_right_xpm, -100, -100);
         goombas[i] = goomba;
     }
-
-    goombas[0]->x = 800;
-    goombas[0]->y = 200;
 
     if (vg_init(mode) == NULL) {
     printf("\t vg_init(): error ");
@@ -242,8 +308,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
             case HARDWARE:                                    /* hardware interrupt notification */
                 if (msg.m_notify.interrupts & timer0_int_bit) { /* subscribed interrupt */
                     timer_int_handler();
-                    moveGoombas();
-                    updateScreen(gameState);
+                    updateScreen(&gameState);
                 }
                 if (msg.m_notify.interrupts & kbd_int_bit) {
                     kbc_ih();
