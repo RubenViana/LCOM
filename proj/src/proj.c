@@ -10,6 +10,8 @@
 #include "assets/dooper_right.xpm"
 #include "assets/dooper_left.xpm"
 #include "assets/goomba_right.xpm"
+#include "assets/mouse.xpm"
+#include "assets/crosshair.xpm"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -140,11 +142,13 @@ void updateStateKbd (state_g *gameState){
             }
             else if(scancode == SPACEBAR_CODE){
                 *gameState = PLAY;
+                mouse = create_sprite(crosshar_xpm, mouse->x, mouse->y);
             }
             break;
         case PLAY:
             if(scancode == ESCAPE_CODE){
                 *gameState = MENU;
+                mouse = create_sprite(mouse_xpm, mouse->x, mouse->y);
             }
             else if(scancode == KEY_A_CODE){
                 player->x -= 10;
@@ -189,7 +193,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     play_background = create_sprite(background_xpm,0,0);
     menu_background = create_sprite(menu_background_xpm,0,0);
     player = create_sprite(dooper_right_xpm,100,200);
-    mouse = create_sprite(ubuntu_xpm,500,500);
+    mouse = create_sprite(mouse_xpm,500,500);
     
     for (int i = 0; i < 10; i++){
         Sprite* goomba = create_sprite(goomba_right_xpm, -100, -100);
