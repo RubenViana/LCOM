@@ -67,16 +67,17 @@ void updateScreen (state_g gameState) {
     switch(gameState){
         case MENU:
             draw_sprite_proj(*menu_background);
+            draw_sprite_proj(*mouse);
             double_buffer();
             break;
         case PLAY:
             draw_sprite_proj(*play_background);
-            draw_sprite_proj(*player);
-            draw_sprite_proj(*mouse);
             for (int i = 0; i < 10; i++){
                 if (goombas[i]->x > 0 && goombas[i]->y > 0)
                     draw_sprite_proj(*goombas[i]);
             }
+            draw_sprite_proj(*player);
+            draw_sprite_proj(*mouse);
             double_buffer();
             break;
         default:
@@ -142,7 +143,7 @@ void updateStateKbd (state_g *gameState){
             }
             else if(scancode == SPACEBAR_CODE){
                 *gameState = PLAY;
-                mouse = create_sprite(crosshar_xpm, mouse->x, mouse->y);
+                mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y);
             }
             break;
         case PLAY:
