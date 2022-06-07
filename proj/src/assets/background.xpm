@@ -1,5 +1,5 @@
 /* XPM */
-static xpm_row_t background_xpm[] = {
+static char * background_xpm[] = {
 "1152 864 256 2",
 "  	c #630804",
 ". 	c #43180C",
