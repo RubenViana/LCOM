@@ -1,5 +1,5 @@
 /* XPM */
-static char * pokeball_xpm[] = {
+static xpm_row_t pokeball_xpm[] = {
 "89 89 57 1",
 " 	c None",
 ".	c #B1B1B1",

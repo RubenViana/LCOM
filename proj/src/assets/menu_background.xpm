@@ -1,5 +1,5 @@
 /* XPM */
-static char * menu_background_xpm[] = {
+static xpm_row_t menu_background_xpm[] = {
 "1152 864 638 2",
 "  	c #D8F4F9",
 ". 	c #46BCF5",

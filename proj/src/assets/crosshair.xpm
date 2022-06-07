@@ -1,5 +1,5 @@
 /* XPM */
-static char * crosshair_xpm[] = {
+static xpm_row_t crosshair_xpm[] = {
 "50 50 25 1",
 " 	c None",
 ".	c #FF0000",
