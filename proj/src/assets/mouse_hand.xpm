@@ -1,5 +1,5 @@
 /* XPM */
-static char * mouse_hand_xpm[] = {
+static xpm_row_t mouse_hand_xpm[] = {
 "75 95 102 2",
 "  	g None",
 ". 	g #262626",

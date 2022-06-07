@@ -1,5 +1,5 @@
 /* XPM */
-static char * dooperman_laser_left_xpm[] = {
+static xpm_row_t dooper_laser_left_xpm[] = {
 "72 100 2135 2",
 "  	c None",
 ". 	c #080808",
