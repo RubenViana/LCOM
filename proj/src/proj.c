@@ -5,7 +5,11 @@
 
 #include "mouse.h"
 
-#include "assets/penguin.xpm"
+#include "assets/background.xpm"
+#include "assets/menu_background.xpm"
+#include "assets/dooper_right.xpm"
+#include "assets/dooper_left.xpm"
+
 
 #include <stdint.h>
 #include <stdio.h>
@@ -51,16 +55,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
 
     uint16_t mode = 0x14C;
-    uint16_t xPos = 0;
-    uint16_t yPos = 0;
-    uint16_t width = 48;
-    uint16_t height = 54;
-    uint32_t color1 = 0xffffff;
-    //uint32_t color2 = 0xaccaca;
-    uint32_t color_black = 0x0000ff;
 
-    
-    Sprite* sp = create_sprite(minix3_xpm,100,200);
+    Sprite* play_background = create_sprite(background_xpm,0,0);
+    Sprite* menu_background = create_sprite(menu_background_xpm,0,0);
+    Sprite* player = create_sprite(dooper_right_xpm,100,200);
     mouse = create_sprite(ubuntu_xpm,500,500);
     
      
@@ -104,13 +102,12 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     timer_int_handler();
                     switch(gameState){
                         case MENU:
-                            vg_draw_rectangle(0, 0, 1152, 864, color_black);
-                            vg_draw_rectangle(xPos+100, yPos+100, width, height, color1);
+                            draw_sprite_proj(*menu_background);
                             double_buffer();
                             break;
                         case PLAY:
-                            vg_draw_rectangle(0, 0, 1152, 864, color_black);
-                            draw_sprite_proj(*sp);
+                            draw_sprite_proj(*play_background);
+                            draw_sprite_proj(*player);
                             draw_sprite_proj(*mouse);
                             double_buffer();
                             break;
@@ -134,16 +131,18 @@ int(proj_main_loop)(int argc, char *argv[]) {
                                 gameState = MENU;
                             }
                             else if(scancode == KEY_A_CODE){
-                                sp->x -= 5;
+                                player->x -= 10;
+                                player = create_sprite(dooper_left_xpm, player->x, player->y);
                             }
                             else if(scancode == KEY_W_CODE){
-                                sp->y -= 5;
+                                player->y -= 10;
                             }
                             else if(scancode == KEY_S_CODE){
-                                sp->y += 5;
+                                player->y += 10;
                             }
                             else if(scancode == KEY_D_CODE){
-                                sp->x += 5;
+                                player->x += 10;
+                                player = create_sprite(dooper_right_xpm, player->x, player->y);
                             }
                             break;
                         default:

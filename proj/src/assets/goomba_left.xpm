@@ -1,5 +1,5 @@
 /* XPM */
-static char * goomba_left_xpm[] = {
+static xpm_row_t goomba_left_xpm[] = {
 "42 37 112 2",
 "  	c None",
 ". 	c #BA7038",

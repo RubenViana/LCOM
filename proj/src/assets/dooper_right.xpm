@@ -1,5 +1,5 @@
 /* XPM */
-static char * dooper_right_xpm[] = {
+static xpm_row_t dooper_right_xpm[] = {
 "42 72 26 1",
 " 	c None",
 ".	c #080808",
