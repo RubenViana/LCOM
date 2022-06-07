@@ -3,6 +3,8 @@
 #include "keyboard.h"
 #include "videocard.h"
 
+#include "mouse.h"
+
 #include "assets/penguin.xpm"
 
 #include <stdint.h>
@@ -11,6 +13,13 @@
 extern int counter;
 extern uint8_t scancode;
 extern int cnt;
+
+extern bool reading_error;
+extern int mouse_counter;
+extern bool packet_read;
+extern struct packet packet_struct;
+
+Sprite* mouse;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -52,6 +61,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     
     Sprite* sp = create_sprite(minix3_xpm,100,200);
+    mouse = create_sprite(ubuntu_xpm,500,500);
+    
      
     if (vg_init(mode) == NULL) {
     printf("\t vg_init(): error ");
@@ -66,6 +77,14 @@ int(proj_main_loop)(int argc, char *argv[]) {
     message msg;
     kbc_subscribe_int(&bit_no1);
     timer_subscribe_int(&bit_no0);
+
+    if (enable_mouse_data() != 0)
+        return 1;
+
+    uint8_t bit_no_mouse = 2;
+    uint32_t mouse_int_bit = BIT(bit_no_mouse);
+    mouse_subscribe(&bit_no_mouse);
+
     int frequency = 30;
 
     timer_set_frequency(0, frequency);
@@ -92,6 +111,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                         case PLAY:
                             vg_draw_rectangle(0, 0, 1152, 864, color_black);
                             draw_sprite_proj(*sp);
+                            draw_sprite_proj(*mouse);
                             double_buffer();
                             break;
                         default:
@@ -130,6 +150,18 @@ int(proj_main_loop)(int argc, char *argv[]) {
                             break;
                     }
                 }
+                if (msg.m_notify.interrupts & mouse_int_bit) {
+                    mouse_ih();
+                    if (reading_error == true && mouse_counter != 2) {
+                        continue;
+                    }
+                    else if (reading_error == true && mouse_counter == 2) {
+                        reading_error = false;
+                    }
+                    else{
+                        organize_packets();
+                    }
+                }
                 break;
             default:
                 break; /* no other notifications expected: do nothing */
@@ -140,6 +172,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
         }
     }
 
+    if (disable_mouse_data() != 0) return 1;
+
     if (vg_exit() != 0) {
         printf("\t vg_exit(): error ");
         return 1;
@@ -147,6 +181,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     kbc_unsubscribe_int();
     timer_unsubscribe_int();
+    mouse_unsubscribe();
 
     return 0;
 }

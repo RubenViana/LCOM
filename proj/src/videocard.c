@@ -4,8 +4,8 @@ static void *video_mem;
 
 char* buffer;
 
-static unsigned h_res;	       
-static unsigned v_res;	        
+unsigned h_res;	       
+unsigned v_res;	        
 static unsigned bits_per_pixel;
 static unsigned bytes_per_pixel;
 static vbe_mode_info_t vbe_info;

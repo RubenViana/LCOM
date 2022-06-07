@@ -5,6 +5,8 @@
 
 #define KEYBOARD_IRQ 1
 
+#define MOUSE_IRQ 12
+
 #define DELAY_US    20000
 
 #define OUT_BUFF_BIT BIT(0)
@@ -40,5 +42,25 @@
 #define KEY_S_CODE 0x1F
 
 #define KEY_D_CODE 0x20
+
+#define COMMAND_TO_MOUSE 0xD4
+
+#define NACK 0xFE
+
+#define ERROR 0xFC
+
+#define ACK 0xFA
+
+#define ENABLE_MOUSE_DATA 0xF4
+
+#define DISABLE_MOUSE_DATA 0xF5
+
+#define SET_STREAM_MODE 0xEA
+
+#define SET_REMOTE_MODE 0xF0
+
+#define READ_DATA_MOUSE 0xEB
+
+#define RESET_MOUSE 0xFF
 
 #endif
