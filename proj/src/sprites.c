@@ -1,6 +1,6 @@
 #include "sprites.h"
 
-Sprite* create_sprite(xpm_map_t map,int x, int y) {
+Sprite* create_sprite(xpm_map_t map,int x, int y, int xSpeed, int ySpeed) {
 
     Sprite *sp = (Sprite *) malloc(sizeof(Sprite));
     enum xpm_image_type type = XPM_8_8_8_8;
@@ -18,6 +18,8 @@ Sprite* create_sprite(xpm_map_t map,int x, int y) {
     sp->height = img.height;
     sp->x = x;
     sp->y = y;
+    sp->xSpeed = xSpeed;
+    sp->ySpeed = ySpeed;
     return sp;
 }
 
