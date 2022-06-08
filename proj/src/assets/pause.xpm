@@ -1,5 +1,5 @@
 /* XPM */
-static char * pause_xpm[] = {
+static xpm_row_t pause_xpm[] = {
 "360 360 6 1",
 " 	c None",
 ".	c #B7B7B7",
