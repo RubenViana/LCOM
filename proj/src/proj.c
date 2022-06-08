@@ -37,6 +37,13 @@ Sprite* goombas[12];
 static int BLOCK_WIDTH = 72;
 static int BLOCK_HEIGHT = 54;
 
+bool UP = false;
+bool DOWN = false;
+bool LEFT = false;
+bool RIGHT = false;
+
+int PLAYER_SPEED = 10;
+
 typedef enum { MENU, PLAY, GAME_OVER} state_g;
 
 int main(int argc, char *argv[]) {
@@ -61,6 +68,13 @@ int main(int argc, char *argv[]) {
   lcf_cleanup();
 
   return 0;
+}
+
+void clearKeys() {
+    UP = false;
+    DOWN = false;
+    LEFT = false;
+    RIGHT = false;
 }
 
 void initializeGame(){
@@ -103,6 +117,8 @@ void initializeGame(){
 
     goombas[11]->x = 10;
     goombas[11]->y = 488;
+
+    clearKeys();
 }
 
 bool checkGoombaCollisions(int i){
@@ -220,23 +236,48 @@ void updateStateKbd (state_g *gameState){
                 *gameState = MENU;
                 mouse = create_sprite(mouse_xpm, mouse->x, mouse->y);
             }
-            else if(scancode == KEY_A_CODE){
-                player->x -= 15;
+
+            //KEY PRESSED
+            if(scancode == KEY_A_MAKECODE){
+                LEFT = true;             
+            }
+            if(scancode == KEY_W_MAKECODE){
+                UP = true;
+            }
+            if(scancode == KEY_S_MAKECODE){
+                DOWN = true;
+            }
+            if(scancode == KEY_D_MAKECODE){
+                RIGHT = true;
+            }
+
+            //KEY RELEASED
+            if(scancode == KEY_A_BREAKCODE){
+                LEFT = false;
+            }
+            if(scancode == KEY_W_BREAKCODE){
+                UP = false;
+            }
+            if(scancode == KEY_S_BREAKCODE){
+                DOWN = false;
+            }
+            if(scancode == KEY_D_BREAKCODE){
+                RIGHT = false;
+            }
+
+            //SET PLAYER POS
+            if (UP && !DOWN) player->y -= PLAYER_SPEED;
+            if (DOWN && !UP) player->y += PLAYER_SPEED;
+            if (LEFT && !RIGHT) {
+                player->x -= PLAYER_SPEED;
                 player = create_sprite(dooper_left_xpm, player->x, player->y);
             }
-            else if(scancode == KEY_W_CODE){
-                player->y -= 15;
-            }
-            else if(scancode == KEY_S_CODE){
-                player->y += 15;
-            }
-            else if(scancode == KEY_D_CODE){
-                player->x += 15;
+            if (RIGHT && !LEFT) {
+                player->x += PLAYER_SPEED;
                 player = create_sprite(dooper_right_xpm, player->x, player->y);
             }
 
             checkCollisions(player,gameState);
-            
 
             break;
         default:

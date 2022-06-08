@@ -35,13 +35,21 @@
 
 #define SPACEBAR_CODE 0x39
 
-#define KEY_A_CODE 0x1E
+#define KEY_A_MAKECODE 0x1E
 
-#define KEY_W_CODE 0x11
+#define KEY_W_MAKECODE 0x11
 
-#define KEY_S_CODE 0x1F
+#define KEY_S_MAKECODE 0x1F
 
-#define KEY_D_CODE 0x20
+#define KEY_D_MAKECODE 0x20
+
+#define KEY_A_BREAKCODE 0x9E
+
+#define KEY_W_BREAKCODE 0x91
+
+#define KEY_S_BREAKCODE 0x9F
+
+#define KEY_D_BREAKCODE 0xa0
 
 #define COMMAND_TO_MOUSE 0xD4
 
