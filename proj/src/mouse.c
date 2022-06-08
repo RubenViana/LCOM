@@ -16,6 +16,7 @@ bool reading_error = false;
 extern Sprite* mouse;
 extern unsigned h_res;	       
 extern unsigned v_res;
+bool M1_PRESSED;
 
 
 int(mouse_subscribe)(uint8_t * bit_no){
@@ -76,6 +77,7 @@ void (update_mouse_pos)() {
     mouse->x += packet_struct.delta_x;
     mouse->y -= packet_struct.delta_y;
 
+    M1_PRESSED = packet_struct.lb;
     
     if(mouse->x + mouse->width > (int)h_res){
         mouse->x = (int)h_res - mouse->width -5;

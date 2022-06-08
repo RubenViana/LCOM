@@ -29,6 +29,8 @@ extern struct packet packet_struct;
 extern unsigned h_res;	       
 extern unsigned v_res;
 
+extern bool M1_PRESSED;
+
 Sprite* mouse;
 Sprite* play_background;
 Sprite* menu_background;
@@ -43,7 +45,6 @@ bool UP = false;
 bool DOWN = false;
 bool LEFT = false;
 bool RIGHT = false;
-bool M1_PRESSED = false;
 
 int slot_pos = 0;
 
@@ -319,18 +320,6 @@ void updateStateKbd (state_g *gameState){
                 RIGHT = false;
             }
 
-            //temp
-            if(scancode == SPACEBAR_CODE) {
-                if (slot_pos < 4) {
-                    pokeballs[slot_pos]->x = player->x;
-                    pokeballs[slot_pos]->y = player->y;
-                    pokeballs[slot_pos]->xSpeed = (((mouse->x + mouse->width)/2) - (player->x + player->width)/2) * 0.2 ;
-                    pokeballs[slot_pos]->ySpeed = (((mouse->y + mouse->height)/2) - (player->y + player->height)/2) * 0.2;
-                    
-                    slot_pos++;
-                }
-            }
-
             break;
         default:
             break;
@@ -346,6 +335,24 @@ void updateStateMouse (state_g *gameState){
     }
     else{
         organize_packets();
+        switch (*gameState){
+            case MENU:
+                // missing code here !
+                break;
+            case PLAY:
+                if(M1_PRESSED){
+                    if (slot_pos < 4) {
+                        pokeballs[slot_pos]->x = player->x;
+                        pokeballs[slot_pos]->y = player->y;
+                        pokeballs[slot_pos]->xSpeed = (((mouse->x + mouse->width)/2) - (player->x + player->width)/2) * 0.1 ;
+                        pokeballs[slot_pos]->ySpeed = (((mouse->y + mouse->height)/2) - (player->y + player->height)/2) * 0.1;
+                        slot_pos++;
+                    }
+                    M1_PRESSED = false;
+                }
+                break;
+            default: break;
+        }
     }
 }
 
