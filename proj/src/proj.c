@@ -42,7 +42,7 @@ bool DOWN = false;
 bool LEFT = false;
 bool RIGHT = false;
 
-int PLAYER_SPEED = 10;
+int PLAYER_SPEED = 5;
 
 typedef enum { MENU, PLAY, GAME_OVER} state_g;
 
@@ -119,6 +119,19 @@ void initializeGame(){
     goombas[11]->y = 488;
 
     clearKeys();
+}
+
+void movePlayer() {
+    if (UP && !DOWN) player->y -= PLAYER_SPEED;
+    if (DOWN && !UP) player->y += PLAYER_SPEED;
+    if (LEFT && !RIGHT) {
+        player->x -= PLAYER_SPEED;
+        player = create_sprite(dooper_left_xpm, player->x, player->y);
+    }
+    if (RIGHT && !LEFT) {
+        player->x += PLAYER_SPEED;
+        player = create_sprite(dooper_right_xpm, player->x, player->y);
+    }
 }
 
 bool checkGoombaCollisions(int i){
@@ -211,6 +224,8 @@ void updateScreen (state_g *gameState) {
             draw_sprite_proj(*player);
             draw_sprite_proj(*mouse);
             double_buffer();
+
+            movePlayer();
             moveGoombas();
             checkCollisions(player,gameState);
             break;
@@ -264,20 +279,6 @@ void updateStateKbd (state_g *gameState){
             if(scancode == KEY_D_BREAKCODE){
                 RIGHT = false;
             }
-
-            //SET PLAYER POS
-            if (UP && !DOWN) player->y -= PLAYER_SPEED;
-            if (DOWN && !UP) player->y += PLAYER_SPEED;
-            if (LEFT && !RIGHT) {
-                player->x -= PLAYER_SPEED;
-                player = create_sprite(dooper_left_xpm, player->x, player->y);
-            }
-            if (RIGHT && !LEFT) {
-                player->x += PLAYER_SPEED;
-                player = create_sprite(dooper_right_xpm, player->x, player->y);
-            }
-
-            checkCollisions(player,gameState);
 
             break;
         default:
