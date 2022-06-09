@@ -164,8 +164,8 @@ void initializeGame(){
     goombas[11]->xSpeed = -30;
     goombas[11]->ySpeed = (int)v_res/4 * 3;
 
-    goombas[12]->xSpeed = -20;
-    goombas[12]->ySpeed = -20;
+    goombas[12]->xSpeed = -35;
+    goombas[12]->ySpeed = 40;
 
     goombas[13]->xSpeed = -20;
     goombas[13]->ySpeed = (int)v_res + 20;
