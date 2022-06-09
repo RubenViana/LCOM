@@ -39,8 +39,9 @@ extern bool M1_PRESSED;
 extern bool MOUSE_HOVER_PLAY;
 extern bool MOUSE_HOVER_EXIT;
 
-int slot_pos = 0;
 static int number_pokeballs = 12;
+int slot_pos = 0;
+int points = 0;
 
 Sprite* mouse;
 Sprite* play_background;
@@ -99,7 +100,11 @@ void clearKeys() {
 void initializeGame(){
 
     slot_pos = 0;
+    points = 0;
 
+    clearKeys();
+
+    //Spawn Pokeballs
     for (int i = 0; i < number_pokeballs; i++){
         Sprite* pokeball;
         if (i < 3)
@@ -112,15 +117,16 @@ void initializeGame(){
             pokeball = create_sprite(masterball_xpm, i * 20, 0, 0, 0);
         pokeballs[i] = pokeball;
     }
-    
+
+    //Spawn Player
+    player->x = 550;
+    player->y = 400;
+
+    //Spawn Goombas
     for (int i = 0; i < 16; i++){
         Sprite* goomba = create_sprite(goomba_right_xpm,0,0,0,0);
         goombas[i] = goomba;
     }
-
-    player->x = 550;
-    player->y = 400;
-
 
     goombas[0]->xSpeed = (int)h_res/4 * 1;
     goombas[0]->ySpeed = -30;
@@ -169,8 +175,6 @@ void initializeGame(){
 
     goombas[15]->xSpeed = (int)h_res + 20;
     goombas[15]->ySpeed = (int)v_res + 20;
-
-    clearKeys();
 
     for (int i = 0; i < 16; i++){
         goombas[i]->x = goombas[i]->xSpeed;
