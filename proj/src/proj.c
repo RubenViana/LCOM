@@ -43,7 +43,7 @@ Sprite* hover_play;
 Sprite* hover_exit;
 Sprite* player;
 Sprite* goombas[12]; 
-Sprite* pokeballs[4];
+Sprite* pokeballs[20];
 
 static int BLOCK_WIDTH = 72;
 static int BLOCK_HEIGHT = 54;
@@ -94,7 +94,7 @@ void initializeGame(){
 
     slot_pos = 0;
 
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < 20; i++){
         Sprite* pokeball = create_sprite(pokeball_xpm, i * 20, 0, 0, 0);
         pokeballs[i] = pokeball;
     }
@@ -147,7 +147,7 @@ void initializeGame(){
 }
 
 void moveBullets() {
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < 20; i++){
         pokeballs[i]->x += pokeballs[i]->xSpeed;
         pokeballs[i]->y += pokeballs[i]->ySpeed;
     }
@@ -178,7 +178,7 @@ bool checkGoombaCollisions(int i){
             }
         }
     }
-    for (int j = 0; j < 4; j++){
+    for (int j = 0; j < 20; j++){
         if(goombas[i]->x < pokeballs[j]->x + pokeballs[j]->width &&
             goombas[i]->x + goombas[i]->width > pokeballs[j]->x &&
             goombas[i]->y < pokeballs[j]->y + pokeballs[j]->height &&
@@ -270,7 +270,7 @@ void updateScreen (state_g *gameState) {
                 if (goombas[i]->x > 0 && goombas[i]->y > 0)
                     draw_sprite_proj(*goombas[i]);
             }
-            for (int i = 0; i < 4; i++){
+            for (int i = 0; i < 20; i++){
                 draw_sprite_proj(*pokeballs[i]);
             }
             draw_sprite_proj(*player);
@@ -293,10 +293,6 @@ void updateStateKbd (state_g *gameState){
         case MENU:
             if(scancode == ESCAPE_CODE){
                 *gameState = GAME_OVER;
-            }
-            else if(scancode == SPACEBAR_CODE){
-                *gameState = PLAY;
-                initializeGame();
             }
             break;
         case PLAY:
@@ -362,7 +358,7 @@ void updateStateMouse (state_g *gameState){
                 break;
             case PLAY:
                 if(M1_PRESSED){
-                    if (slot_pos < 4) {
+                    if (slot_pos < 20) {
                         double dist_player_goomba = sqrt(((((mouse->x + mouse->width)/2) - (player->x + player->width)/2)*(((mouse->x + mouse->width)/2) - (player->x + player->width)/2)) + ((((mouse->y + mouse->height)/2) - (player->y + player->height)/2)*(((mouse->y + mouse->height)/2) - (player->y + player->height)/2)));
                         pokeballs[slot_pos]->x = player->x;
                         pokeballs[slot_pos]->y = player->y;
