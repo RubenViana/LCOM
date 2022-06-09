@@ -15,23 +15,26 @@ struct Date {
 
 #define IRQ8 8 
 #define RTC_ERROR 0xFFFFFFFF
-#define ADDR_REG 0x70 
-#define REGISTER_C 12
-#define REGISTER_B 11
-#define REGISTER_A 10
-#define DATA_REG 0x71 
-#define UIP	BIT(7)
-#define SECOND_REGISTER	0x00	
-#define SECOND_ALARM_REGISTER	0x01
-#define MINUTE_REGISTER	0x02	
-#define MINUTE_ALARM_REGISTER	0x03
-#define HOUR_REGISTER 0x04	
-#define HOUR_ALARM_REGISTER	0x05
-#define DAY_REGISTER 0x07	
-#define MONTH_REGISTER 0x08	
-#define YEAR_REGISTER 0x09	
-#define UIE BIT(4)
-#define AIE BIT(5)
+
+#define RTC_ADDR_REG 0x70 
+#define RTC_REGISTER_C 12
+#define RTC_REGISTER_B 11
+#define RTC_REGISTER_A 10
+#define RTC_DATA_REG 0x71 
+
+#define RTC_SECOND_REG	0x00	
+#define RTC_SECOND_ALARM_REG	0x01
+#define RTC_MINUTE_REG	0x02	
+#define RTC_MINUTE_ALARM_REG	0x03
+#define RTC_HOUR_REG 0x04	
+#define RTC_HOUR_ALARM_REG	0x05
+#define RTC_DAY_REG 0x07	
+#define RTC_MONTH_REG 0x08	
+#define RTC_YEAR_REG 0x09
+
+#define RTC_UIP	BIT(7)	
+#define RTC_UIE BIT(4)
+#define RTC_AIE BIT(5)
 
 void rtc_ih();
 
@@ -39,11 +42,11 @@ int rtc_subscribe();
 
 int rtc_unsubscribe();
 
-int rtc_enable_update();
+int rtc_enable_update_alarm();
 
-int rtc_disable_update();
+int rtc_disable_update_alarm();
 
-int(read_rtc)(uint8_t reg);
+int(read_from_rtc)(uint8_t reg);
 
 int (rtc_get_date)();
 
