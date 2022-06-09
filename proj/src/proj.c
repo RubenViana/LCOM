@@ -13,6 +13,8 @@
 #include "assets/mouse.xpm"
 #include "assets/crosshair.xpm"
 #include "assets/pokeball.xpm"
+#include "assets/hover_play.xpm"
+#include "assets/hover_exit.xpm"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -31,10 +33,14 @@ extern unsigned h_res;
 extern unsigned v_res;
 
 extern bool M1_PRESSED;
+extern bool MOUSE_HOVER_PLAY;
+extern bool MOUSE_HOVER_EXIT;
 
 Sprite* mouse;
 Sprite* play_background;
 Sprite* menu_background;
+Sprite* hover_play;
+Sprite* hover_exit;
 Sprite* player;
 Sprite* goombas[12]; 
 Sprite* pokeballs[4];
@@ -247,13 +253,18 @@ void moveGoombas() {
 void updateScreen (state_g *gameState) {
     switch(*gameState){
         case MENU:
-            mouse = create_sprite(mouse_xpm, mouse->x, mouse->y,0,0);
+            mouse = create_sprite(mouse_xpm, mouse->x, mouse->y,0,0);       //maybe temp here
             draw_sprite_proj(*menu_background);
+
+            //draw hover buttons , maybe temp
+            if (MOUSE_HOVER_PLAY) draw_sprite_proj(*hover_play);
+            else if (MOUSE_HOVER_EXIT) draw_sprite_proj(*hover_exit);
+
             draw_sprite_proj(*mouse);
             double_buffer();
             break;
         case PLAY:
-            mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y,0,0);
+            mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y,0,0);       //maybe temp here
             draw_sprite_proj(*play_background);
             for (int i = 0; i < 12; i++){
                 if (goombas[i]->x > 0 && goombas[i]->y > 0)
@@ -338,7 +349,16 @@ void updateStateMouse (state_g *gameState){
         organize_packets();
         switch (*gameState){
             case MENU:
-                // missing code here !
+                if (M1_PRESSED){
+                    if (MOUSE_HOVER_PLAY) {
+                        *gameState = PLAY;
+                        initializeGame();
+                    }
+                    else if (MOUSE_HOVER_EXIT) {
+                        *gameState = GAME_OVER;
+                    }
+                    M1_PRESSED = false;
+                }
                 break;
             case PLAY:
                 if(M1_PRESSED){
@@ -364,6 +384,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     play_background = create_sprite(background_xpm,0,0,0,0);
     menu_background = create_sprite(menu_background_xpm,0,0,0,0);
+    hover_play = create_sprite(hover_play_xpm,0,0,0,0);
+    hover_exit = create_sprite(hover_exit_xpm,0,0,0,0);
     player = create_sprite(dooper_right_xpm,550,400,5,5);
     mouse = create_sprite(mouse_xpm,500,500,0,0);
 
