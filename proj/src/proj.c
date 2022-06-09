@@ -13,6 +13,9 @@
 #include "assets/mouse.xpm"
 #include "assets/crosshair.xpm"
 #include "assets/pokeball.xpm"
+#include "assets/greatball.xpm"
+#include "assets/masterball.xpm"
+#include "assets/ultraball.xpm"
 #include "assets/hover_play.xpm"
 #include "assets/hover_exit.xpm"
 
@@ -36,14 +39,17 @@ extern bool M1_PRESSED;
 extern bool MOUSE_HOVER_PLAY;
 extern bool MOUSE_HOVER_EXIT;
 
+int slot_pos = 0;
+static int number_pokeballs = 12;
+
 Sprite* mouse;
 Sprite* play_background;
 Sprite* menu_background;
 Sprite* hover_play;
 Sprite* hover_exit;
 Sprite* player;
-Sprite* goombas[12]; 
-Sprite* pokeballs[20];
+Sprite* goombas[16]; 
+Sprite* pokeballs[12];
 
 static int BLOCK_WIDTH = 72;
 static int BLOCK_HEIGHT = 54;
@@ -53,7 +59,7 @@ bool DOWN = false;
 bool LEFT = false;
 bool RIGHT = false;
 
-int slot_pos = 0;
+
 
 
 typedef enum { MENU, PLAY, GAME_OVER} state_g;
@@ -94,60 +100,92 @@ void initializeGame(){
 
     slot_pos = 0;
 
-    for (int i = 0; i < 20; i++){
-        Sprite* pokeball = create_sprite(pokeball_xpm, i * 20, 0, 0, 0);
+    for (int i = 0; i < number_pokeballs; i++){
+        Sprite* pokeball;
+        if (i < 3)
+            pokeball = create_sprite(pokeball_xpm, i * 20, 0, 0, 0);
+        else if (i < 6)
+            pokeball = create_sprite(greatball_xpm, i * 20, 0, 0, 0);
+        else if (i < 9)
+            pokeball = create_sprite(ultraball_xpm, i * 20, 0, 0, 0);
+        else
+            pokeball = create_sprite(masterball_xpm, i * 20, 0, 0, 0);
         pokeballs[i] = pokeball;
     }
     
-    for (int i = 0; i < 12; i++){
-        Sprite* goomba = create_sprite(goomba_right_xpm, -100, -100,0,0);
+    for (int i = 0; i < 16; i++){
+        Sprite* goomba = create_sprite(goomba_right_xpm,0,0,0,0);
         goombas[i] = goomba;
     }
 
     player->x = 550;
     player->y = 400;
-    
-    goombas[0]->x = 504;
-    goombas[0]->y = 10;
 
-    goombas[1]->x = 577;
-    goombas[1]->y = 10;
 
-    goombas[2]->x = 650;
-    goombas[2]->y = 10;
+    goombas[0]->xSpeed = (int)h_res/4 * 1;
+    goombas[0]->ySpeed = -30;
 
-    goombas[3]->x = 1100;
-    goombas[3]->y = 378;
+    goombas[1]->xSpeed = (int)h_res/4 * 2;
+    goombas[1]->ySpeed = -30;
 
-    goombas[4]->x = 1100;
-    goombas[4]->y = 433;
+    goombas[2]->xSpeed = (int)h_res/4 * 3;
+    goombas[2]->ySpeed = -30;
 
-    goombas[5]->x = 1100;
-    goombas[5]->y = 488;
+    goombas[3]->xSpeed = 1130;
+    goombas[3]->ySpeed = (int)v_res/4 * 1;
 
-    goombas[6]->x = 504;
-    goombas[6]->y = 824;
+    goombas[4]->xSpeed = 1130;
+    goombas[4]->ySpeed = (int)v_res/4 * 2;
 
-    goombas[7]->x = 577;
-    goombas[7]->y = 824;
+    goombas[5]->xSpeed = 1130;
+    goombas[5]->ySpeed = (int)v_res/4 * 3;
 
-    goombas[8]->x = 650;
-    goombas[8]->y = 824;
+    goombas[6]->xSpeed = (int)h_res/4 * 1;
+    goombas[6]->ySpeed = 834;
 
-    goombas[9]->x = 10;
-    goombas[9]->y = 378;
+    goombas[7]->xSpeed = (int)h_res/4 * 2;
+    goombas[7]->ySpeed = 834;
 
-    goombas[10]->x = 10;
-    goombas[10]->y = 433;
+    goombas[8]->xSpeed = (int)h_res/4 * 3;
+    goombas[8]->ySpeed = 834;
 
-    goombas[11]->x = 10;
-    goombas[11]->y = 488;
+    goombas[9]->xSpeed = -30;
+    goombas[9]->ySpeed = (int)v_res/4 * 1;
+
+    goombas[10]->xSpeed = -30;
+    goombas[10]->ySpeed = (int)v_res/4 * 2;
+
+    goombas[11]->xSpeed = -30;
+    goombas[11]->ySpeed = (int)v_res/4 * 3;
+
+    goombas[12]->xSpeed = -20;
+    goombas[12]->ySpeed = -20;
+
+    goombas[13]->xSpeed = -20;
+    goombas[13]->ySpeed = (int)v_res + 20;
+
+    goombas[14]->xSpeed = (int)h_res + 20;
+    goombas[14]->ySpeed = -20;
+
+    goombas[15]->xSpeed = (int)h_res + 20;
+    goombas[15]->ySpeed = (int)v_res + 20;
 
     clearKeys();
+
+    for (int i = 0; i < 16; i++){
+        goombas[i]->x = goombas[i]->xSpeed;
+        goombas[i]->y = goombas[i]->ySpeed;
+    }
 }
 
 void moveBullets() {
-    for (int i = 0; i < 20; i++){
+    for (int i = 0; i < number_pokeballs; i++){
+        if (pokeballs[i]->x < BLOCK_WIDTH || pokeballs[i]->x+pokeballs[i]->width > (int)h_res-BLOCK_WIDTH || pokeballs[i]->y < BLOCK_HEIGHT || pokeballs[i]->y+pokeballs[i]->height > (int)v_res-BLOCK_HEIGHT){
+            pokeballs[i]->x = i * 20;
+            pokeballs[i]->y = 0;
+            pokeballs[i]->xSpeed = 0;
+            pokeballs[i]->ySpeed = 0;
+        }
         pokeballs[i]->x += pokeballs[i]->xSpeed;
         pokeballs[i]->y += pokeballs[i]->ySpeed;
     }
@@ -168,7 +206,7 @@ void movePlayer() {
 
 bool checkGoombaCollisions(int i){
     //collision between goombas
-    for(int j = 0; j < 12;j++){
+    for(int j = 0; j < 16;j++){
         if(i!=j){
             if(goombas[i]->x < goombas[j]->x + goombas[j]->width &&
             goombas[i]->x + goombas[i]->width > goombas[j]->x &&
@@ -178,13 +216,15 @@ bool checkGoombaCollisions(int i){
             }
         }
     }
-    for (int j = 0; j < 20; j++){
+
+    //collisions with pokeballs
+    for (int j = 0; j < number_pokeballs; j++){
         if(goombas[i]->x < pokeballs[j]->x + pokeballs[j]->width &&
             goombas[i]->x + goombas[i]->width > pokeballs[j]->x &&
             goombas[i]->y < pokeballs[j]->y + pokeballs[j]->height &&
             goombas[i]->y + goombas[i]->height > pokeballs[j]->y){
-                goombas[i]->x = -100;
-                goombas[i]->y = -100;   //temp , only for testing
+                goombas[i]->x = goombas[i]->xSpeed;
+                goombas[i]->y = goombas[i]->ySpeed;
             }
     }
 
@@ -207,7 +247,7 @@ void checkPlayerCollisions(Sprite *sp,state_g *gameState){
     
     
     //collisions with goombas
-    for (int i = 0; i < 12; i++){
+    for (int i = 0; i < 16; i++){
         if(goombas[i]->x + 23 < sp->x + sp->width &&
             goombas[i]->x + goombas[i]->width - 23> sp->x &&
             goombas[i]->y + 23 < sp->y + sp->height &&
@@ -220,34 +260,33 @@ void checkPlayerCollisions(Sprite *sp,state_g *gameState){
 }
 
 void moveGoombas() {
-    for (int i = 0; i < 12; i++){
-        if (goombas[i]->x > 0 && goombas[i]->y > 0) {
-            if (goombas[i]->x < player->x ) {
-                goombas[i]->x ++;
-                if(checkGoombaCollisions(i)){
-                    goombas[i]->x --;
-                }
-            }
-            if (goombas[i]->x > player->x ) {
+    for (int i = 0; i < 16; i++){
+        if (goombas[i]->x < player->x ) {
+            goombas[i]->x ++;
+            if(checkGoombaCollisions(i)){
                 goombas[i]->x --;
-                if(checkGoombaCollisions(i)){
-                    goombas[i]->x ++;
-                }
             }
-            if (goombas[i]->y < player->y ) {
-                goombas[i]->y ++;
-                if(checkGoombaCollisions(i)){
-                    goombas[i]->y --;
-                }
+        }
+        if (goombas[i]->x > player->x ) {
+            goombas[i]->x --;
+            if(checkGoombaCollisions(i)){
+                goombas[i]->x ++;
             }
-            if (goombas[i]->y > player->y ) {
+        }
+        if (goombas[i]->y < player->y ) {
+            goombas[i]->y ++;
+            if(checkGoombaCollisions(i)){
                 goombas[i]->y --;
-                if(checkGoombaCollisions(i)){
-                    goombas[i]->y ++;
-                }
+            }
+        }
+        if (goombas[i]->y > player->y ) {
+            goombas[i]->y --;
+            if(checkGoombaCollisions(i)){
+                goombas[i]->y ++;
             }
         }
     }
+    
 }
 
 void updateScreen (state_g *gameState) {
@@ -266,11 +305,10 @@ void updateScreen (state_g *gameState) {
         case PLAY:
             mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y,0,0);       //maybe temp here
             draw_sprite_proj(*play_background);
-            for (int i = 0; i < 12; i++){
-                if (goombas[i]->x > 0 && goombas[i]->y > 0)
-                    draw_sprite_proj(*goombas[i]);
+            for (int i = 0; i < 16; i++){
+                draw_sprite_proj(*goombas[i]);
             }
-            for (int i = 0; i < 20; i++){
+            for (int i = 0; i < number_pokeballs; i++){
                 draw_sprite_proj(*pokeballs[i]);
             }
             draw_sprite_proj(*player);
@@ -358,14 +396,14 @@ void updateStateMouse (state_g *gameState){
                 break;
             case PLAY:
                 if(M1_PRESSED){
-                    if (slot_pos < 20) {
-                        double dist_player_goomba = sqrt(((((mouse->x + mouse->width)/2) - (player->x + player->width)/2)*(((mouse->x + mouse->width)/2) - (player->x + player->width)/2)) + ((((mouse->y + mouse->height)/2) - (player->y + player->height)/2)*(((mouse->y + mouse->height)/2) - (player->y + player->height)/2)));
-                        pokeballs[slot_pos]->x = player->x;
-                        pokeballs[slot_pos]->y = player->y;
-                        pokeballs[slot_pos]->xSpeed = ((((mouse->x + mouse->width)/2) - (player->x + player->width)/2) / dist_player_goomba) * 10;
-                        pokeballs[slot_pos]->ySpeed = ((((mouse->y + mouse->height)/2) - (player->y + player->height)/2) / dist_player_goomba) * 10;
-                        slot_pos++;
+                    double dist_player_goomba = sqrt(((((mouse->x + mouse->width)/2) - (player->x + player->width)/2)*(((mouse->x + mouse->width)/2) - (player->x + player->width)/2)) + ((((mouse->y + mouse->height)/2) - (player->y + player->height)/2)*(((mouse->y + mouse->height)/2) - (player->y + player->height)/2)));
+                    if (pokeballs[slot_pos%number_pokeballs]->y == 0) {
+                        pokeballs[slot_pos%number_pokeballs]->x = player->x;
+                        pokeballs[slot_pos%number_pokeballs]->y = player->y;
+                        pokeballs[slot_pos%number_pokeballs]->xSpeed = ((((mouse->x + mouse->width)/2) - (player->x + player->width)/2) / dist_player_goomba) * 10;
+                        pokeballs[slot_pos%number_pokeballs]->ySpeed = ((((mouse->y + mouse->height)/2) - (player->y + player->height)/2) / dist_player_goomba) * 10;
                     }
+                    slot_pos++;
                     M1_PRESSED = false;
                 }
                 break;
