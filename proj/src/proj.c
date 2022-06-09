@@ -63,7 +63,7 @@ bool RIGHT = false;
 
 
 
-typedef enum { MENU, PLAY, GAME_OVER} state_g;
+typedef enum { MENU, PLAY, GAME_OVER, EXIT} state_g;
 
 
 int main(int argc, char *argv[]) {
@@ -229,6 +229,8 @@ bool checkGoombaCollisions(int i){
             goombas[i]->y + goombas[i]->height > pokeballs[j]->y){
                 goombas[i]->x = goombas[i]->xSpeed;
                 goombas[i]->y = goombas[i]->ySpeed;
+                
+                points++;   //player killed a goomba!
             }
     }
 
@@ -256,7 +258,7 @@ void checkPlayerCollisions(Sprite *sp,state_g *gameState){
             goombas[i]->x + goombas[i]->width - 23> sp->x &&
             goombas[i]->y + 23 < sp->y + sp->height &&
             goombas[i]->y + goombas[i]->height - 23> sp->y){
-                    *gameState = MENU;
+                    *gameState = GAME_OVER;
                     break;
                 }
     }
@@ -323,7 +325,9 @@ void updateScreen (state_g *gameState) {
             moveBullets();
             moveGoombas();
             checkPlayerCollisions(player,gameState);
-
+            break;
+        case GAME_OVER:
+            // draw game_over here !
             break;
         default:
             break;
@@ -334,12 +338,12 @@ void updateStateKbd (state_g *gameState){
     switch(*gameState){
         case MENU:
             if(scancode == ESCAPE_CODE){
-                *gameState = GAME_OVER;
+                *gameState = EXIT;
             }
             break;
         case PLAY:
             if(scancode == ESCAPE_CODE){
-                *gameState = MENU;
+                *gameState = GAME_OVER;
             }
 
             //KEY PRESSED
@@ -369,7 +373,11 @@ void updateStateKbd (state_g *gameState){
             if(scancode == KEY_D_BREAKCODE){
                 RIGHT = false;
             }
-
+            break;
+        case GAME_OVER:
+            if (scancode == SPACEBAR_CODE) {
+                *gameState = MENU;
+            }
             break;
         default:
             break;
@@ -393,7 +401,7 @@ void updateStateMouse (state_g *gameState){
                         initializeGame();
                     }
                     else if (MOUSE_HOVER_EXIT) {
-                        *gameState = GAME_OVER;
+                        *gameState = EXIT;
                     }
                     M1_PRESSED = false;
                 }
@@ -417,7 +425,6 @@ void updateStateMouse (state_g *gameState){
 }
 
 int(proj_main_loop)(int argc, char *argv[]) {
-
     uint16_t mode = 0x14C;
 
     play_background = create_sprite(background_xpm,0,0,0,0);
@@ -454,7 +461,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     state_g gameState = MENU;
 
-    while (gameState != GAME_OVER) {
+    while (gameState != EXIT) {
         int r = driver_receive(ANY, &msg, &ipc_status);
         if (r != 0) {
             printf("driver_receive failed with: %d", r);
@@ -491,6 +498,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
         printf("\t vg_exit(): error ");
         return 1;
     }
+
+    printf("POINTS: %d\n", points);
 
     kbc_unsubscribe_int();
     timer_unsubscribe_int();
