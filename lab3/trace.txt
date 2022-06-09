@@ -1,107 +1,98 @@
 @lcflib.a:2019, lcf_start
   kbd_test_scan()
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0b = 0b00001011)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x02 = 0b00000010])
-  @rtc.c:30, rtc_enable_update
-    sys_outb(ADDR_REG, REGISTER_B)
+  @rtc.c:30, rtc_enable_update_alarm
+    sys_outb(RTC_ADDR_REG, RTC_REGISTER_B)
   > sys_outb(0x70, 0x0b = 0b00001011)
-  @rtc.c:32, rtc_enable_update
-    sys_outb(DATA_REG, data)
+  @rtc.c:32, rtc_enable_update_alarm
+    sys_outb(RTC_DATA_REG, data)
   > sys_outb(0x71, 0x32 = 0b00110010)
   @rtc.c:9, rtc_subscribe
     sys_irqsetpolicy(IRQ8, IRQ_REENABLE, &hook_id_rtc)
-  > sys_irqsetpolicy(8, 1, addr: 0x822dec8 [3])
-  < sys_irqsetpolicy(8, 1, addr: 0x822dec8 [10]) -> (ret: 0)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  > sys_irqsetpolicy(8, 1, addr: 0x822de48 [3])
+  < sys_irqsetpolicy(8, 1, addr: 0x822de48 [10]) -> (ret: 0)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0a = 0b00001010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x09 = 0b00001001)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x07 = 0b00000111)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x04 = 0b00000100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x16 = 0b00010110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x02 = 0b00000010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x08 = 0b00001000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x00 = 0b00000000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x34 = 0b00110100])
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
   @lab3.c:51, kbd_test_scan
-    printf("Hours: %02X \n",date.hour)
-    "Hours: 16 "
-  @lab3.c:52, kbd_test_scan
-    printf("Minutes: %02X ",date.min)
-    "Minutes: 37 "
-  @lab3.c:53, kbd_test_scan
-    printf("Seconds: %02X \n",date.sec)
-    "Seconds: 34 "
-  @lab3.c:54, kbd_test_scan
-    sys_outb(ADDR_REG, SECOND_ALARM_REGISTER)
+    sys_outb(RTC_ADDR_REG, RTC_SECOND_ALARM_REGISTER)
   > sys_outb(0x70, 0x01 = 0b00000001)
-  @lab3.c:55, kbd_test_scan
-    sys_outb(DATA_REG, date.sec + 0xA)
-  > sys_outb(0x71, 0x3e = 0b00111110)
-  @lab3.c:57, kbd_test_scan
-    sys_outb(ADDR_REG, MINUTE_ALARM_REGISTER)
+  @lab3.c:52, kbd_test_scan
+    sys_outb(RTC_DATA_REG, date.sec)
+  > sys_outb(0x71, 0x17 = 0b00010111)
+  @lab3.c:54, kbd_test_scan
+    sys_outb(RTC_ADDR_REG, RTC_MINUTE_ALARM_REGISTER)
   > sys_outb(0x70, 0x03 = 0b00000011)
-  @lab3.c:58, kbd_test_scan
-    sys_outb(DATA_REG, date.min)
-  > sys_outb(0x71, 0x37 = 0b00110111)
-  @lab3.c:60, kbd_test_scan
-    sys_outb(ADDR_REG, HOUR_ALARM_REGISTER)
+  @lab3.c:55, kbd_test_scan
+    sys_outb(RTC_DATA_REG, date.min + 0x1)
+  > sys_outb(0x71, 0x38 = 0b00111000)
+  @lab3.c:57, kbd_test_scan
+    sys_outb(RTC_ADDR_REG, RTC_HOUR_ALARM_REGISTER)
   > sys_outb(0x70, 0x05 = 0b00000101)
-  @lab3.c:61, kbd_test_scan
-    sys_outb(DATA_REG, date.hour)
-  > sys_outb(0x71, 0x16 = 0b00010110)
+  @lab3.c:58, kbd_test_scan
+    sys_outb(RTC_DATA_REG, date.hour)
+  > sys_outb(0x71, 0x17 = 0b00010111)
   @keyboard.c:13, kbc_subscribe_int
     sys_irqsetpolicy(KEYBOARD_IRQ, IRQ_REENABLE|IRQ_EXCLUSIVE, &bit_no_int)
   > sys_irqsetpolicy(1, 3, addr: 0xeffff6e0 [1])
   < sys_irqsetpolicy(1, 3, addr: 0xeffff6e0 [11]) -> (ret: 0)
-  @lab3.c:66, kbd_test_scan
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
-  @lab3.c:75, kbd_test_scan
+  @lab3.c:72, kbd_test_scan
     kbc_ih()
     @utils.c:29, util_sys_inb
       sys_inb(port, &x)
@@ -111,570 +102,1065 @@
       sys_inb(port, &x)
     > sys_inb(0x60, addr: 0xeffff634)
     < sys_inb(0x60, addr: 0xeffff634 [0x9c = 0b10011100])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0a = 0b00001010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x09 = 0b00001001)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x07 = 0b00000111)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x04 = 0b00000100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x16 = 0b00010110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x02 = 0b00000010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x08 = 0b00001000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x00 = 0b00000000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x34 = 0b00110100])
-  @lab3.c:77, kbd_test_scan
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
+  @lab3.c:74, kbd_test_scan
     printf("Year: %02X ",date.year)
     "Year: 22 "
-  @lab3.c:78, kbd_test_scan
+  @lab3.c:75, kbd_test_scan
     printf("Month: %02X ",date.month)
     "Month: 06 "
-  @lab3.c:79, kbd_test_scan
+  @lab3.c:76, kbd_test_scan
     printf("Day: %02X ",date.day)
     "Day: 09 "
-  @lab3.c:80, kbd_test_scan
+  @lab3.c:77, kbd_test_scan
     printf("Hours: %02X ",date.hour)
-    "Hours: 16 "
-  @lab3.c:81, kbd_test_scan
+    "Hours: 17 "
+  @lab3.c:78, kbd_test_scan
     printf("Minutes: %02X ",date.min)
     "Minutes: 37 "
-  @lab3.c:82, kbd_test_scan
+  @lab3.c:79, kbd_test_scan
     printf("Seconds: %02X \n",date.sec)
-    "Seconds: 34 "
-  @lab3.c:66, kbd_test_scan
+    "Seconds: 17 "
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e4)
   < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e4)
   < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e4)
   < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e4)
   < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e4)
   < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e4)
   < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e4)
   < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e4)
   < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e4)
   < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
+  @lab3.c:72, kbd_test_scan
+    kbc_ih()
+    @utils.c:29, util_sys_inb
+      sys_inb(port, &x)
+    > sys_inb(0x64, addr: 0xeffff634)
+    < sys_inb(0x64, addr: 0xeffff634 [0x1d = 0b00011101])
+    @utils.c:29, util_sys_inb
+      sys_inb(port, &x)
+    > sys_inb(0x60, addr: 0xeffff634)
+    < sys_inb(0x60, addr: 0xeffff634 [0x39 = 0b00111001])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0a = 0b00001010)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x09 = 0b00001001)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x07 = 0b00000111)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x04 = 0b00000100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x02 = 0b00000010)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x08 = 0b00001000)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x00 = 0b00000000)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x49 = 0b01001001])
+  @lab3.c:74, kbd_test_scan
+    printf("Year: %02X ",date.year)
+    "Year: 22 "
+  @lab3.c:75, kbd_test_scan
+    printf("Month: %02X ",date.month)
+    "Month: 06 "
+  @lab3.c:76, kbd_test_scan
+    printf("Day: %02X ",date.day)
+    "Day: 09 "
+  @lab3.c:77, kbd_test_scan
+    printf("Hours: %02X ",date.hour)
+    "Hours: 17 "
+  @lab3.c:78, kbd_test_scan
+    printf("Minutes: %02X ",date.min)
+    "Minutes: 37 "
+  @lab3.c:79, kbd_test_scan
+    printf("Seconds: %02X \n",date.sec)
+    "Seconds: 49 "
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
+  @lab3.c:72, kbd_test_scan
+    kbc_ih()
+    @utils.c:29, util_sys_inb
+      sys_inb(port, &x)
+    > sys_inb(0x64, addr: 0xeffff634)
+    < sys_inb(0x64, addr: 0xeffff634 [0x1d = 0b00011101])
+    @utils.c:29, util_sys_inb
+      sys_inb(port, &x)
+    > sys_inb(0x60, addr: 0xeffff634)
+    < sys_inb(0x60, addr: 0xeffff634 [0xb9 = 0b10111001])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0a = 0b00001010)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x09 = 0b00001001)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x07 = 0b00000111)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x04 = 0b00000100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x02 = 0b00000010)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x08 = 0b00001000)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x00 = 0b00000000)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x49 = 0b01001001])
+  @lab3.c:74, kbd_test_scan
+    printf("Year: %02X ",date.year)
+    "Year: 22 "
+  @lab3.c:75, kbd_test_scan
+    printf("Month: %02X ",date.month)
+    "Month: 06 "
+  @lab3.c:76, kbd_test_scan
+    printf("Day: %02X ",date.day)
+    "Day: 09 "
+  @lab3.c:77, kbd_test_scan
+    printf("Hours: %02X ",date.hour)
+    "Hours: 17 "
+  @lab3.c:78, kbd_test_scan
+    printf("Minutes: %02X ",date.min)
+    "Minutes: 37 "
+  @lab3.c:79, kbd_test_scan
+    printf("Seconds: %02X \n",date.sec)
+    "Seconds: 49 "
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
+  @lab3.c:72, kbd_test_scan
+    kbc_ih()
+    @utils.c:29, util_sys_inb
+      sys_inb(port, &x)
+    > sys_inb(0x64, addr: 0xeffff634)
+    < sys_inb(0x64, addr: 0xeffff634 [0x1d = 0b00011101])
+    @utils.c:29, util_sys_inb
+      sys_inb(port, &x)
+    > sys_inb(0x60, addr: 0xeffff634)
+    < sys_inb(0x60, addr: 0xeffff634 [0x39 = 0b00111001])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0a = 0b00001010)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x09 = 0b00001001)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x07 = 0b00000111)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x04 = 0b00000100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x02 = 0b00000010)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x08 = 0b00001000)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x00 = 0b00000000)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x55 = 0b01010101])
+  @lab3.c:74, kbd_test_scan
+    printf("Year: %02X ",date.year)
+    "Year: 22 "
+  @lab3.c:75, kbd_test_scan
+    printf("Month: %02X ",date.month)
+    "Month: 06 "
+  @lab3.c:76, kbd_test_scan
+    printf("Day: %02X ",date.day)
+    "Day: 09 "
+  @lab3.c:77, kbd_test_scan
+    printf("Hours: %02X ",date.hour)
+    "Hours: 17 "
+  @lab3.c:78, kbd_test_scan
+    printf("Minutes: %02X ",date.min)
+    "Minutes: 37 "
+  @lab3.c:79, kbd_test_scan
+    printf("Seconds: %02X \n",date.sec)
+    "Seconds: 55 "
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
+  @lab3.c:72, kbd_test_scan
+    kbc_ih()
+    @utils.c:29, util_sys_inb
+      sys_inb(port, &x)
+    > sys_inb(0x64, addr: 0xeffff634)
+    < sys_inb(0x64, addr: 0xeffff634 [0x1d = 0b00011101])
+    @utils.c:29, util_sys_inb
+      sys_inb(port, &x)
+    > sys_inb(0x60, addr: 0xeffff634)
+    < sys_inb(0x60, addr: 0xeffff634 [0xb9 = 0b10111001])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0a = 0b00001010)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x09 = 0b00001001)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x07 = 0b00000111)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x04 = 0b00000100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x02 = 0b00000010)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x08 = 0b00001000)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x00 = 0b00000000)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e0)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x55 = 0b01010101])
+  @lab3.c:74, kbd_test_scan
+    printf("Year: %02X ",date.year)
+    "Year: 22 "
+  @lab3.c:75, kbd_test_scan
+    printf("Month: %02X ",date.month)
+    "Month: 06 "
+  @lab3.c:76, kbd_test_scan
+    printf("Day: %02X ",date.day)
+    "Day: 09 "
+  @lab3.c:77, kbd_test_scan
+    printf("Hours: %02X ",date.hour)
+    "Hours: 17 "
+  @lab3.c:78, kbd_test_scan
+    printf("Minutes: %02X ",date.min)
+    "Minutes: 37 "
+  @lab3.c:79, kbd_test_scan
+    printf("Seconds: %02X \n",date.sec)
+    "Seconds: 55 "
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
+  > sys_inb(0x71, addr: 0xeffff6e4)
+  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
+  @lab3.c:63, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
+  > sys_outb(0x70, 0x0c = 0b00001100)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e4)
   < sys_inb(0x71, addr: 0xeffff6e4 [0xb0 = 0b10110000])
   @rtc.c:21, rtc_ih
     printf("ALARM MODE\n")
     "ALARM MODE"
-  @lab3.c:66, kbd_test_scan
-    driver_receive(ANY, &msg, &ipc_status)
-  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
-  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e4)
-  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
-    driver_receive(ANY, &msg, &ipc_status)
-  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
-  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e4)
-  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
-    driver_receive(ANY, &msg, &ipc_status)
-  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
-  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e4)
-  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
-    driver_receive(ANY, &msg, &ipc_status)
-  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
-  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e4)
-  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
-  @lab3.c:75, kbd_test_scan
-    kbc_ih()
-    @utils.c:29, util_sys_inb
-      sys_inb(port, &x)
-    > sys_inb(0x64, addr: 0xeffff634)
-    < sys_inb(0x64, addr: 0xeffff634 [0x1d = 0b00011101])
-    @utils.c:29, util_sys_inb
-      sys_inb(port, &x)
-    > sys_inb(0x60, addr: 0xeffff634)
-    < sys_inb(0x60, addr: 0xeffff634 [0x2e = 0b00101110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x0a = 0b00001010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x09 = 0b00001001)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x07 = 0b00000111)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x04 = 0b00000100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x16 = 0b00010110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x02 = 0b00000010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x08 = 0b00001000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x00 = 0b00000000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x48 = 0b01001000])
-  @lab3.c:77, kbd_test_scan
-    printf("Year: %02X ",date.year)
-    "Year: 22 "
-  @lab3.c:78, kbd_test_scan
-    printf("Month: %02X ",date.month)
-    "Month: 06 "
-  @lab3.c:79, kbd_test_scan
-    printf("Day: %02X ",date.day)
-    "Day: 09 "
-  @lab3.c:80, kbd_test_scan
-    printf("Hours: %02X ",date.hour)
-    "Hours: 16 "
-  @lab3.c:81, kbd_test_scan
-    printf("Minutes: %02X ",date.min)
-    "Minutes: 37 "
-  @lab3.c:82, kbd_test_scan
-    printf("Seconds: %02X \n",date.sec)
-    "Seconds: 48 "
-  @lab3.c:66, kbd_test_scan
-    driver_receive(ANY, &msg, &ipc_status)
-  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
-  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
-  @lab3.c:75, kbd_test_scan
-    kbc_ih()
-    @utils.c:29, util_sys_inb
-      sys_inb(port, &x)
-    > sys_inb(0x64, addr: 0xeffff634)
-    < sys_inb(0x64, addr: 0xeffff634 [0x1d = 0b00011101])
-    @utils.c:29, util_sys_inb
-      sys_inb(port, &x)
-    > sys_inb(0x60, addr: 0xeffff634)
-    < sys_inb(0x60, addr: 0xeffff634 [0xae = 0b10101110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x0a = 0b00001010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x09 = 0b00001001)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x07 = 0b00000111)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x04 = 0b00000100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x16 = 0b00010110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x02 = 0b00000010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x08 = 0b00001000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x00 = 0b00000000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x48 = 0b01001000])
-  @lab3.c:77, kbd_test_scan
-    printf("Year: %02X ",date.year)
-    "Year: 22 "
-  @lab3.c:78, kbd_test_scan
-    printf("Month: %02X ",date.month)
-    "Month: 06 "
-  @lab3.c:79, kbd_test_scan
-    printf("Day: %02X ",date.day)
-    "Day: 09 "
-  @lab3.c:80, kbd_test_scan
-    printf("Hours: %02X ",date.hour)
-    "Hours: 16 "
-  @lab3.c:81, kbd_test_scan
-    printf("Minutes: %02X ",date.min)
-    "Minutes: 37 "
-  @lab3.c:82, kbd_test_scan
-    printf("Seconds: %02X \n",date.sec)
-    "Seconds: 48 "
-  @lab3.c:66, kbd_test_scan
-    driver_receive(ANY, &msg, &ipc_status)
-  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
-  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
-  @lab3.c:75, kbd_test_scan
-    kbc_ih()
-    @utils.c:29, util_sys_inb
-      sys_inb(port, &x)
-    > sys_inb(0x64, addr: 0xeffff634)
-    < sys_inb(0x64, addr: 0xeffff634 [0x1d = 0b00011101])
-    @utils.c:29, util_sys_inb
-      sys_inb(port, &x)
-    > sys_inb(0x60, addr: 0xeffff634)
-    < sys_inb(0x60, addr: 0xeffff634 [0x26 = 0b00100110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x0a = 0b00001010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x09 = 0b00001001)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x07 = 0b00000111)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x04 = 0b00000100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x16 = 0b00010110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x02 = 0b00000010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x08 = 0b00001000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x00 = 0b00000000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x48 = 0b01001000])
-  @lab3.c:77, kbd_test_scan
-    printf("Year: %02X ",date.year)
-    "Year: 22 "
-  @lab3.c:78, kbd_test_scan
-    printf("Month: %02X ",date.month)
-    "Month: 06 "
-  @lab3.c:79, kbd_test_scan
-    printf("Day: %02X ",date.day)
-    "Day: 09 "
-  @lab3.c:80, kbd_test_scan
-    printf("Hours: %02X ",date.hour)
-    "Hours: 16 "
-  @lab3.c:81, kbd_test_scan
-    printf("Minutes: %02X ",date.min)
-    "Minutes: 37 "
-  @lab3.c:82, kbd_test_scan
-    printf("Seconds: %02X \n",date.sec)
-    "Seconds: 48 "
-  @lab3.c:66, kbd_test_scan
-    driver_receive(ANY, &msg, &ipc_status)
-  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
-  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
-  @lab3.c:75, kbd_test_scan
-    kbc_ih()
-    @utils.c:29, util_sys_inb
-      sys_inb(port, &x)
-    > sys_inb(0x64, addr: 0xeffff634)
-    < sys_inb(0x64, addr: 0xeffff634 [0x1d = 0b00011101])
-    @utils.c:29, util_sys_inb
-      sys_inb(port, &x)
-    > sys_inb(0x60, addr: 0xeffff634)
-    < sys_inb(0x60, addr: 0xeffff634 [0xa6 = 0b10100110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x0a = 0b00001010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x09 = 0b00001001)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x07 = 0b00000111)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x04 = 0b00000100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x16 = 0b00010110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x02 = 0b00000010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x08 = 0b00001000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x00 = 0b00000000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x48 = 0b01001000])
-  @lab3.c:77, kbd_test_scan
-    printf("Year: %02X ",date.year)
-    "Year: 22 "
-  @lab3.c:78, kbd_test_scan
-    printf("Month: %02X ",date.month)
-    "Month: 06 "
-  @lab3.c:79, kbd_test_scan
-    printf("Day: %02X ",date.day)
-    "Day: 09 "
-  @lab3.c:80, kbd_test_scan
-    printf("Hours: %02X ",date.hour)
-    "Hours: 16 "
-  @lab3.c:81, kbd_test_scan
-    printf("Minutes: %02X ",date.min)
-    "Minutes: 37 "
-  @lab3.c:82, kbd_test_scan
-    printf("Seconds: %02X \n",date.sec)
-    "Seconds: 48 "
-  @lab3.c:66, kbd_test_scan
-    driver_receive(ANY, &msg, &ipc_status)
-  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
-  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000001000]>)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
-  > sys_outb(0x70, 0x0c = 0b00001100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
-  > sys_inb(0x71, addr: 0xeffff6e4)
-  < sys_inb(0x71, addr: 0xeffff6e4 [0x90 = 0b10010000])
-  @lab3.c:66, kbd_test_scan
-    driver_receive(ANY, &msg, &ipc_status)
-  > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
-  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
-  @lab3.c:75, kbd_test_scan
+  @lab3.c:72, kbd_test_scan
     kbc_ih()
     @utils.c:29, util_sys_inb
       sys_inb(port, &x)
@@ -684,78 +1170,78 @@
       sys_inb(port, &x)
     > sys_inb(0x60, addr: 0xeffff634)
     < sys_inb(0x60, addr: 0xeffff634 [0x01 = 0b00000001])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0a = 0b00001010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x09 = 0b00001001)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x07 = 0b00000111)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x04 = 0b00000100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x16 = 0b00010110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x02 = 0b00000010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x38 = 0b00111000])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x08 = 0b00001000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x00 = 0b00000000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x49 = 0b01001001])
-  @lab3.c:77, kbd_test_scan
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
+  @lab3.c:74, kbd_test_scan
     printf("Year: %02X ",date.year)
     "Year: 22 "
-  @lab3.c:78, kbd_test_scan
+  @lab3.c:75, kbd_test_scan
     printf("Month: %02X ",date.month)
     "Month: 06 "
-  @lab3.c:79, kbd_test_scan
+  @lab3.c:76, kbd_test_scan
     printf("Day: %02X ",date.day)
     "Day: 09 "
-  @lab3.c:80, kbd_test_scan
+  @lab3.c:77, kbd_test_scan
     printf("Hours: %02X ",date.hour)
-    "Hours: 16 "
-  @lab3.c:81, kbd_test_scan
+    "Hours: 17 "
+  @lab3.c:78, kbd_test_scan
     printf("Minutes: %02X ",date.min)
-    "Minutes: 37 "
-  @lab3.c:82, kbd_test_scan
+    "Minutes: 38 "
+  @lab3.c:79, kbd_test_scan
     printf("Seconds: %02X \n",date.sec)
-    "Seconds: 49 "
-  @lab3.c:66, kbd_test_scan
+    "Seconds: 17 "
+  @lab3.c:63, kbd_test_scan
     driver_receive(ANY, &msg, &ipc_status)
   > driver_receive(ANY, addr: 0xeffff710, addr: 0xeffff758)
   < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
-  @lab3.c:75, kbd_test_scan
+  @lab3.c:72, kbd_test_scan
     kbc_ih()
     @utils.c:29, util_sys_inb
       sys_inb(port, &x)
@@ -765,94 +1251,94 @@
       sys_inb(port, &x)
     > sys_inb(0x60, addr: 0xeffff634)
     < sys_inb(0x60, addr: 0xeffff634 [0x81 = 0b10000001])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0a = 0b00001010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x26 = 0b00100110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x09 = 0b00001001)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x22 = 0b00100010])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x07 = 0b00000111)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x09 = 0b00001001])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x04 = 0b00000100)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x16 = 0b00010110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x02 = 0b00000010)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x37 = 0b00110111])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x38 = 0b00111000])
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x08 = 0b00001000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x06 = 0b00000110])
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x00 = 0b00000000)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
-  < sys_inb(0x71, addr: 0xeffff6e0 [0x49 = 0b01001001])
-  @lab3.c:77, kbd_test_scan
+  < sys_inb(0x71, addr: 0xeffff6e0 [0x17 = 0b00010111])
+  @lab3.c:74, kbd_test_scan
     printf("Year: %02X ",date.year)
     "Year: 22 "
-  @lab3.c:78, kbd_test_scan
+  @lab3.c:75, kbd_test_scan
     printf("Month: %02X ",date.month)
     "Month: 06 "
-  @lab3.c:79, kbd_test_scan
+  @lab3.c:76, kbd_test_scan
     printf("Day: %02X ",date.day)
     "Day: 09 "
-  @lab3.c:80, kbd_test_scan
+  @lab3.c:77, kbd_test_scan
     printf("Hours: %02X ",date.hour)
-    "Hours: 16 "
-  @lab3.c:81, kbd_test_scan
+    "Hours: 17 "
+  @lab3.c:78, kbd_test_scan
     printf("Minutes: %02X ",date.min)
-    "Minutes: 37 "
-  @lab3.c:82, kbd_test_scan
+    "Minutes: 38 "
+  @lab3.c:79, kbd_test_scan
     printf("Seconds: %02X \n",date.sec)
-    "Seconds: 49 "
+    "Seconds: 17 "
   @keyboard.c:21, kbc_unsubscribe_int
     sys_irqrmpolicy(&hook_id_global_kbd)
-  > sys_irqrmpolicy(addr: 0x822eb3c [11])
-  < sys_irqrmpolicy(addr: 0x822eb3c [11]) -> (ret: 0)
+  > sys_irqrmpolicy(addr: 0x822eabc [11])
+  < sys_irqrmpolicy(addr: 0x822eabc [11]) -> (ret: 0)
   @rtc.c:13, rtc_unsubscribe
     sys_irqrmpolicy(&hook_id_rtc)
-  > sys_irqrmpolicy(addr: 0x822dec8 [10])
-  < sys_irqrmpolicy(addr: 0x822dec8 [10]) -> (ret: 0)
-  @rtc.c:54, read_rtc
-    sys_outb(ADDR_REG, reg)
+  > sys_irqrmpolicy(addr: 0x822de48 [10])
+  < sys_irqrmpolicy(addr: 0x822de48 [10]) -> (ret: 0)
+  @rtc.c:54, read_from_rtc
+    sys_outb(RTC_ADDR_REG, reg)
   > sys_outb(0x70, 0x0b = 0b00001011)
-  @rtc.c:57, read_rtc
-    sys_inb(DATA_REG, &data)
+  @rtc.c:57, read_from_rtc
+    sys_inb(RTC_DATA_REG, &data)
   > sys_inb(0x71, addr: 0xeffff6e0)
   < sys_inb(0x71, addr: 0xeffff6e0 [0x32 = 0b00110010])
-  @rtc.c:45, rtc_disable_update
-    sys_outb(ADDR_REG, REGISTER_B)
+  @rtc.c:45, rtc_disable_update_alarm
+    sys_outb(RTC_ADDR_REG, RTC_REGISTER_B)
   > sys_outb(0x70, 0x0b = 0b00001011)
-  @rtc.c:47, rtc_disable_update
-    sys_outb(DATA_REG, data)
+  @rtc.c:47, rtc_disable_update_alarm
+    sys_outb(RTC_DATA_REG, data)
   > sys_outb(0x71, 0x02 = 0b00000010)
-  @lab3.c:98, kbd_test_scan
+  @lab3.c:95, kbd_test_scan
     kbd_print_no_sysinb(cnt)
     "sys_inb_calls: 14"

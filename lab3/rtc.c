@@ -16,45 +16,45 @@ int rtc_unsubscribe(){
 
 void rtc_ih() {
 	uint32_t data;
-    data = read_rtc(REGISTER_C);
-    if (data & AIE)
+    data = read_from_rtc(RTC_REGISTER_C);
+    if (data & RTC_AIE)
       printf("ALARM MODE\n");
 }
 
-int rtc_enable_update(){
+int rtc_enable_update_alarm(){
     uint32_t data;
-    data = read_rtc(REGISTER_B);
+    data = read_from_rtc(RTC_REGISTER_B);
     
-    data |= UIE | AIE;
+    data |= RTC_UIE | RTC_AIE;
 
-    sys_outb(ADDR_REG, REGISTER_B);
+    sys_outb(RTC_ADDR_REG, RTC_REGISTER_B);
     
-    sys_outb(DATA_REG, data);
+    sys_outb(RTC_DATA_REG, data);
     
     return 0;
     
 }
 
-int rtc_disable_update(){
+int rtc_disable_update_alarm(){
     uint32_t data;
-    data = read_rtc(REGISTER_B);
+    data = read_from_rtc(RTC_REGISTER_B);
     
-    data &= ~UIE;
-    data &= ~AIE;
+    data &= ~RTC_UIE;
+    data &= ~RTC_AIE;
 
-    sys_outb(ADDR_REG, REGISTER_B);
+    sys_outb(RTC_ADDR_REG, RTC_REGISTER_B);
     
-    sys_outb(DATA_REG, data);
+    sys_outb(RTC_DATA_REG, data);
     
     return 0;
 }
 
-int(read_rtc)(uint8_t reg) {
+int(read_from_rtc)(uint8_t reg) {
   uint32_t data;
-  if (sys_outb(ADDR_REG, reg))
+  if (sys_outb(RTC_ADDR_REG, reg))
     return 1;
 
-  if (sys_inb(DATA_REG, &data))
+  if (sys_inb(RTC_DATA_REG, &data))
     return 1;
 
   return data;
@@ -65,24 +65,22 @@ int (rtc_get_date)() {
 	uint32_t regA;
 
 	do {
-		regA = read_rtc(REGISTER_A);
+		regA = read_from_rtc(RTC_REGISTER_A);
 
 		if(regA == RTC_ERROR) {
 			return -1;
 		}
 
-	} while((regA & UIP) == UIP);
+	} while((regA & RTC_UIP) == RTC_UIP);
 
 
-    date.year = read_rtc(YEAR_REGISTER);
-    date.day = read_rtc(DAY_REGISTER);
-    date.hour = read_rtc(HOUR_REGISTER);
-    date.min = read_rtc(MINUTE_REGISTER);
-    date.month = read_rtc(MONTH_REGISTER);
-    date.sec = read_rtc(SECOND_REGISTER);
+    date.year = read_from_rtc(RTC_YEAR_REGISTER);
+    date.day = read_from_rtc(RTC_DAY_REGISTER);
+    date.hour = read_from_rtc(RTC_HOUR_REGISTER);
+    date.min = read_from_rtc(RTC_MINUTE_REGISTER);
+    date.month = read_from_rtc(RTC_MONTH_REGISTER);
+    date.sec = read_from_rtc(RTC_SECOND_REGISTER);
     
-  
-
 	if( date.year == RTC_ERROR || date.month == RTC_ERROR || date.day == RTC_ERROR || date.hour == RTC_ERROR || date.min == RTC_ERROR || date.sec == RTC_ERROR) {
 		return -1;
 	}

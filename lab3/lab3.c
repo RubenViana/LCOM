@@ -42,23 +42,20 @@ int(kbd_test_scan)() {
   u_int8_t bit_no = 1;
   u_int32_t irq_set = BIT(bit_no);
 
-  rtc_enable_update();
+  rtc_enable_update_alarm();
   uint8_t bit_no_rtc = 3;
   uint32_t irq_set_rtc = BIT(bit_no_rtc);
   rtc_subscribe();
 
   rtc_get_date();
-  printf("Hours: %02X \n",date.hour);
-  printf("Minutes: %02X ",date.min);
-  printf("Seconds: %02X \n",date.sec);
-  sys_outb(ADDR_REG, SECOND_ALARM_REGISTER);
-  sys_outb(DATA_REG, date.sec + 0xA);
+  sys_outb(RTC_ADDR_REG, RTC_SECOND_ALARM_REGISTER);
+  sys_outb(RTC_DATA_REG, date.sec );
 
-  sys_outb(ADDR_REG, MINUTE_ALARM_REGISTER);
-  sys_outb(DATA_REG, date.min);
+  sys_outb(RTC_ADDR_REG, RTC_MINUTE_ALARM_REGISTER);
+  sys_outb(RTC_DATA_REG, date.min + 0x1);
 
-  sys_outb(ADDR_REG, HOUR_ALARM_REGISTER);
-  sys_outb(DATA_REG, date.hour);
+  sys_outb(RTC_ADDR_REG, RTC_HOUR_ALARM_REGISTER);
+  sys_outb(RTC_DATA_REG, date.hour);
 
   message msg;
   kbc_subscribe_int(&bit_no);
@@ -93,7 +90,7 @@ int(kbd_test_scan)() {
 
   rtc_unsubscribe();
 
-  rtc_disable_update();
+  rtc_disable_update_alarm();
 
   kbd_print_no_sysinb(cnt);
   return 0;
