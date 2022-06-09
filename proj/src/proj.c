@@ -2,7 +2,7 @@
 
 #include "keyboard.h"
 #include "videocard.h"
-
+#include "rtc.h"
 #include "mouse.h"
 
 #include "assets/background.xpm"
@@ -32,6 +32,9 @@ extern int mouse_counter;
 extern bool packet_read;
 extern struct packet packet_struct;
 
+extern struct Date date;
+extern bool TIME_ENDED;
+
 extern unsigned h_res;	       
 extern unsigned v_res;
 
@@ -60,11 +63,9 @@ bool DOWN = false;
 bool LEFT = false;
 bool RIGHT = false;
 
-
-
-
 typedef enum { MENU, PLAY, GAME_OVER, EXIT} state_g;
 
+state_g gameState;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -98,6 +99,19 @@ void clearKeys() {
 }
 
 void initializeGame(){
+
+    rtc_get_date();
+    sys_outb(RTC_ADDR_REG, RTC_SECOND_ALARM_REG);
+    sys_outb(RTC_DATA_REG, date.sec );
+
+    sys_outb(RTC_ADDR_REG, RTC_MINUTE_ALARM_REG);
+    sys_outb(RTC_DATA_REG, date.min + 0x1);
+
+    sys_outb(RTC_ADDR_REG, RTC_HOUR_ALARM_REG);
+    sys_outb(RTC_DATA_REG, date.hour);
+
+    TIME_ENDED = false;
+
 
     slot_pos = 0;
     points = 0;
@@ -309,6 +323,10 @@ void updateScreen (state_g *gameState) {
             double_buffer();
             break;
         case PLAY:
+            if (TIME_ENDED) {
+                *gameState = GAME_OVER;
+                break;
+            }
             mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y,0,0);       //maybe temp here
             draw_sprite_proj(*play_background);
             for (int i = 0; i < 16; i++){
@@ -442,9 +460,15 @@ int(proj_main_loop)(int argc, char *argv[]) {
     int ipc_status;
     u_int8_t bit_no1 = 1;
     u_int8_t bit_no0 = 0;
+    uint8_t bit_no_rtc = 3;
     u_int32_t timer0_int_bit = BIT(bit_no0);
     u_int32_t kbd_int_bit = BIT(bit_no1);
+    uint32_t irq_set_rtc = BIT(bit_no_rtc);
     message msg;
+
+    rtc_enable_update_alarm();
+    rtc_subscribe();
+
     kbc_subscribe_int(&bit_no1);
     timer_subscribe_int(&bit_no0);
 
@@ -459,7 +483,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     timer_set_frequency(0, frequency);
 
-    state_g gameState = MENU;
+    gameState = MENU;
 
     while (gameState != EXIT) {
         int r = driver_receive(ANY, &msg, &ipc_status);
@@ -482,6 +506,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     mouse_ih();
                     updateStateMouse(&gameState);
                 }
+                if (msg.m_notify.interrupts & irq_set_rtc) {
+                    rtc_ih();
+                }
                 break;
             default:
                 break; /* no other notifications expected: do nothing */
@@ -501,6 +528,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     printf("POINTS: %d\n", points);
 
+    rtc_disable_update_alarm();
+
+    rtc_unsubscribe();
     kbc_unsubscribe_int();
     timer_unsubscribe_int();
     mouse_unsubscribe();
