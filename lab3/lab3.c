@@ -6,10 +6,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "keyboard.h"
+#include "rtc.h"
 
 extern uint8_t scancode;
 extern int cnt;
 extern int counter;
+extern struct Date date;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -36,9 +38,15 @@ int main(int argc, char *argv[]) {
 }
 
 int(kbd_test_scan)() {
-  int ipc_status;
+    int ipc_status;
   u_int8_t bit_no = 1;
   u_int32_t irq_set = BIT(bit_no);
+
+  rtc_enable_update();
+  uint8_t bit_no_rtc = 3;
+  uint32_t irq_set_rtc = BIT(bit_no_rtc);
+  rtc_subscribe();
+
   message msg;
   kbc_subscribe_int(&bit_no);
   while (scancode != ESCAPE_CODE) { 
@@ -52,14 +60,28 @@ int(kbd_test_scan)() {
         case HARDWARE:                             
           if (msg.m_notify.interrupts & irq_set) {
             kbc_ih();
-            kbc_print_scancode();
+            rtc_get_date();
+            printf("Year: %02X ",date.year);
+            printf("Month: %02X ",date.month);
+            printf("Day: %02X ",date.day);
+            printf("Hours: %02X ",date.hour);
+            printf("Minutes: %02X ",date.min + 1);
+            printf("Seconds: %02X \n",date.sec);
           }
+          if (msg.m_notify.interrupts & irq_set_rtc) {
+             rtc_ih();
+           }
           break;
         default: break;
       }
     }
   }
   kbc_unsubscribe_int();
+
+  rtc_unsubscribe();
+
+  rtc_disable_update();
+
   kbd_print_no_sysinb(cnt);
   return 0;
 }
