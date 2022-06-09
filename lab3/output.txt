@@ -1,0 +1,11 @@
+Hours: 16 
+Minutes: 37 Seconds: 34 
+Year: 22 Month: 06 Day: 09 Hours: 16 Minutes: 37 Seconds: 34 
+ALARM MODE
+Year: 22 Month: 06 Day: 09 Hours: 16 Minutes: 37 Seconds: 48 
+Year: 22 Month: 06 Day: 09 Hours: 16 Minutes: 37 Seconds: 48 
+Year: 22 Month: 06 Day: 09 Hours: 16 Minutes: 37 Seconds: 48 
+Year: 22 Month: 06 Day: 09 Hours: 16 Minutes: 37 Seconds: 48 
+Year: 22 Month: 06 Day: 09 Hours: 16 Minutes: 37 Seconds: 49 
+Year: 22 Month: 06 Day: 09 Hours: 16 Minutes: 37 Seconds: 49 
+sys_inb_calls: 14
