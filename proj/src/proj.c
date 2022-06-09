@@ -421,7 +421,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     hover_play = create_sprite(hover_play_xpm,0,0,0,0);
     hover_exit = create_sprite(hover_exit_xpm,0,0,0,0);
     player = create_sprite(dooper_right_xpm,550,400,5,5);
-    mouse = create_sprite(mouse_xpm,500,500,0,0);
+    mouse = create_sprite(mouse_xpm,750,350,0,0);
 
     if (vg_init(mode) == NULL) {
     printf("\t vg_init(): error ");

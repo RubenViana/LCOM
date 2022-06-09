@@ -80,8 +80,8 @@ void (update_mouse_pos)() {
     mouse->y -= packet_struct.delta_y;
 
     M1_PRESSED = packet_struct.lb;
-    MOUSE_HOVER_PLAY = mouse->x > 516 && mouse->x < 614 && mouse->y > 434 && mouse->y < 490;
-    MOUSE_HOVER_EXIT = mouse->x > 516 && mouse->x < 614 && mouse->y > 512 && mouse->y < 552;
+    MOUSE_HOVER_PLAY = mouse->x > 504 && mouse->x < 640 && mouse->y > 429 && mouse->y < 465;
+    MOUSE_HOVER_EXIT = mouse->x > 504 && mouse->x < 640 && mouse->y > 482 && mouse->y < 516;
     
     if(mouse->x + mouse->width > (int)h_res){
         mouse->x = (int)h_res - mouse->width -5;
