@@ -13,9 +13,12 @@
 #include "assets/mouse.xpm"
 #include "assets/crosshair.xpm"
 #include "assets/pokeball.xpm"
+#include "assets/hover_play.xpm"
+#include "assets/hover_exit.xpm"
 
 #include <stdint.h>
 #include <stdio.h>
+#include <math.h>
 
 extern int counter;
 extern uint8_t scancode;
@@ -30,13 +33,17 @@ extern unsigned h_res;
 extern unsigned v_res;
 
 extern bool M1_PRESSED;
+extern bool MOUSE_HOVER_PLAY;
+extern bool MOUSE_HOVER_EXIT;
 
 Sprite* mouse;
 Sprite* play_background;
 Sprite* menu_background;
+Sprite* hover_play;
+Sprite* hover_exit;
 Sprite* player;
 Sprite* goombas[12]; 
-Sprite* pokeballs[4];
+Sprite* pokeballs[20];
 
 static int BLOCK_WIDTH = 72;
 static int BLOCK_HEIGHT = 54;
@@ -87,7 +94,7 @@ void initializeGame(){
 
     slot_pos = 0;
 
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < 20; i++){
         Sprite* pokeball = create_sprite(pokeball_xpm, i * 20, 0, 0, 0);
         pokeballs[i] = pokeball;
     }
@@ -140,7 +147,7 @@ void initializeGame(){
 }
 
 void moveBullets() {
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < 20; i++){
         pokeballs[i]->x += pokeballs[i]->xSpeed;
         pokeballs[i]->y += pokeballs[i]->ySpeed;
     }
@@ -171,7 +178,7 @@ bool checkGoombaCollisions(int i){
             }
         }
     }
-    for (int j = 0; j < 4; j++){
+    for (int j = 0; j < 20; j++){
         if(goombas[i]->x < pokeballs[j]->x + pokeballs[j]->width &&
             goombas[i]->x + goombas[i]->width > pokeballs[j]->x &&
             goombas[i]->y < pokeballs[j]->y + pokeballs[j]->height &&
@@ -246,17 +253,24 @@ void moveGoombas() {
 void updateScreen (state_g *gameState) {
     switch(*gameState){
         case MENU:
+            mouse = create_sprite(mouse_xpm, mouse->x, mouse->y,0,0);       //maybe temp here
             draw_sprite_proj(*menu_background);
+
+            //draw hover buttons , maybe temp
+            if (MOUSE_HOVER_PLAY) draw_sprite_proj(*hover_play);
+            else if (MOUSE_HOVER_EXIT) draw_sprite_proj(*hover_exit);
+
             draw_sprite_proj(*mouse);
             double_buffer();
             break;
         case PLAY:
+            mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y,0,0);       //maybe temp here
             draw_sprite_proj(*play_background);
             for (int i = 0; i < 12; i++){
                 if (goombas[i]->x > 0 && goombas[i]->y > 0)
                     draw_sprite_proj(*goombas[i]);
             }
-            for (int i = 0; i < 4; i++){
+            for (int i = 0; i < 20; i++){
                 draw_sprite_proj(*pokeballs[i]);
             }
             draw_sprite_proj(*player);
@@ -280,16 +294,10 @@ void updateStateKbd (state_g *gameState){
             if(scancode == ESCAPE_CODE){
                 *gameState = GAME_OVER;
             }
-            else if(scancode == SPACEBAR_CODE){
-                *gameState = PLAY;
-                mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y,0,0);
-                initializeGame();
-            }
             break;
         case PLAY:
             if(scancode == ESCAPE_CODE){
                 *gameState = MENU;
-                mouse = create_sprite(mouse_xpm, mouse->x, mouse->y,0,0);
             }
 
             //KEY PRESSED
@@ -337,15 +345,25 @@ void updateStateMouse (state_g *gameState){
         organize_packets();
         switch (*gameState){
             case MENU:
-                // missing code here !
+                if (M1_PRESSED){
+                    if (MOUSE_HOVER_PLAY) {
+                        *gameState = PLAY;
+                        initializeGame();
+                    }
+                    else if (MOUSE_HOVER_EXIT) {
+                        *gameState = GAME_OVER;
+                    }
+                    M1_PRESSED = false;
+                }
                 break;
             case PLAY:
                 if(M1_PRESSED){
-                    if (slot_pos < 4) {
+                    if (slot_pos < 20) {
+                        double dist_player_goomba = sqrt(((((mouse->x + mouse->width)/2) - (player->x + player->width)/2)*(((mouse->x + mouse->width)/2) - (player->x + player->width)/2)) + ((((mouse->y + mouse->height)/2) - (player->y + player->height)/2)*(((mouse->y + mouse->height)/2) - (player->y + player->height)/2)));
                         pokeballs[slot_pos]->x = player->x;
                         pokeballs[slot_pos]->y = player->y;
-                        pokeballs[slot_pos]->xSpeed = (((mouse->x + mouse->width)/2) - (player->x + player->width)/2) * 0.1 ;
-                        pokeballs[slot_pos]->ySpeed = (((mouse->y + mouse->height)/2) - (player->y + player->height)/2) * 0.1;
+                        pokeballs[slot_pos]->xSpeed = ((((mouse->x + mouse->width)/2) - (player->x + player->width)/2) / dist_player_goomba) * 10;
+                        pokeballs[slot_pos]->ySpeed = ((((mouse->y + mouse->height)/2) - (player->y + player->height)/2) / dist_player_goomba) * 10;
                         slot_pos++;
                     }
                     M1_PRESSED = false;
@@ -362,6 +380,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     play_background = create_sprite(background_xpm,0,0,0,0);
     menu_background = create_sprite(menu_background_xpm,0,0,0,0);
+    hover_play = create_sprite(hover_play_xpm,0,0,0,0);
+    hover_exit = create_sprite(hover_exit_xpm,0,0,0,0);
     player = create_sprite(dooper_right_xpm,550,400,5,5);
     mouse = create_sprite(mouse_xpm,500,500,0,0);
 

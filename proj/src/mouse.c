@@ -17,6 +17,8 @@ extern Sprite* mouse;
 extern unsigned h_res;	       
 extern unsigned v_res;
 bool M1_PRESSED;
+bool MOUSE_HOVER_PLAY;
+bool MOUSE_HOVER_EXIT;
 
 
 int(mouse_subscribe)(uint8_t * bit_no){
@@ -78,6 +80,8 @@ void (update_mouse_pos)() {
     mouse->y -= packet_struct.delta_y;
 
     M1_PRESSED = packet_struct.lb;
+    MOUSE_HOVER_PLAY = mouse->x > 516 && mouse->x < 614 && mouse->y > 434 && mouse->y < 490;
+    MOUSE_HOVER_EXIT = mouse->x > 516 && mouse->x < 614 && mouse->y > 512 && mouse->y < 552;
     
     if(mouse->x + mouse->width > (int)h_res){
         mouse->x = (int)h_res - mouse->width -5;
