@@ -69,12 +69,12 @@ int (rtc_get_date)() {
 		}
 	} while((reg & RTC_UIP) != 0);
 
-    date.year = read_from_rtc(RTC_YEAR_REGISTER);
-    date.month = read_from_rtc(RTC_MONTH_REGISTER);
-    date.day = read_from_rtc(RTC_DAY_REGISTER);
-    date.hour = read_from_rtc(RTC_HOUR_REGISTER);
-    date.min = read_from_rtc(RTC_MINUTE_REGISTER);
-    date.sec = read_from_rtc(RTC_SECOND_REGISTER);
+    date.year = read_from_rtc(RTC_YEAR_REG);
+    date.month = read_from_rtc(RTC_MONTH_REG);
+    date.day = read_from_rtc(RTC_DAY_REG);
+    date.hour = read_from_rtc(RTC_HOUR_REG);
+    date.min = read_from_rtc(RTC_MINUTE_REG);
+    date.sec = read_from_rtc(RTC_SECOND_REG);
     
 	if( date.year == RTC_ERROR ||
    date.month == RTC_ERROR || 

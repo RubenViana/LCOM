@@ -48,13 +48,13 @@ int(kbd_test_scan)() {
   rtc_subscribe();
 
   rtc_get_date();
-  sys_outb(RTC_ADDR_REG, RTC_SECOND_ALARM_REGISTER);
+  sys_outb(RTC_ADDR_REG, RTC_SECOND_ALARM_REG);
   sys_outb(RTC_DATA_REG, date.sec );
 
-  sys_outb(RTC_ADDR_REG, RTC_MINUTE_ALARM_REGISTER);
+  sys_outb(RTC_ADDR_REG, RTC_MINUTE_ALARM_REG);
   sys_outb(RTC_DATA_REG, date.min + 0x1);
 
-  sys_outb(RTC_ADDR_REG, RTC_HOUR_ALARM_REGISTER);
+  sys_outb(RTC_ADDR_REG, RTC_HOUR_ALARM_REG);
   sys_outb(RTC_DATA_REG, date.hour);
 
   message msg;
