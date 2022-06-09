@@ -16,6 +16,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <math.h>
 
 extern int counter;
 extern uint8_t scancode;
@@ -246,11 +247,13 @@ void moveGoombas() {
 void updateScreen (state_g *gameState) {
     switch(*gameState){
         case MENU:
+            mouse = create_sprite(mouse_xpm, mouse->x, mouse->y,0,0);
             draw_sprite_proj(*menu_background);
             draw_sprite_proj(*mouse);
             double_buffer();
             break;
         case PLAY:
+            mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y,0,0);
             draw_sprite_proj(*play_background);
             for (int i = 0; i < 12; i++){
                 if (goombas[i]->x > 0 && goombas[i]->y > 0)
@@ -282,14 +285,12 @@ void updateStateKbd (state_g *gameState){
             }
             else if(scancode == SPACEBAR_CODE){
                 *gameState = PLAY;
-                mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y,0,0);
                 initializeGame();
             }
             break;
         case PLAY:
             if(scancode == ESCAPE_CODE){
                 *gameState = MENU;
-                mouse = create_sprite(mouse_xpm, mouse->x, mouse->y,0,0);
             }
 
             //KEY PRESSED
@@ -342,10 +343,11 @@ void updateStateMouse (state_g *gameState){
             case PLAY:
                 if(M1_PRESSED){
                     if (slot_pos < 4) {
+                        double dist_player_goomba = sqrt(((((mouse->x + mouse->width)/2) - (player->x + player->width)/2)*(((mouse->x + mouse->width)/2) - (player->x + player->width)/2)) + ((((mouse->y + mouse->height)/2) - (player->y + player->height)/2)*(((mouse->y + mouse->height)/2) - (player->y + player->height)/2)));
                         pokeballs[slot_pos]->x = player->x;
                         pokeballs[slot_pos]->y = player->y;
-                        pokeballs[slot_pos]->xSpeed = (((mouse->x + mouse->width)/2) - (player->x + player->width)/2) * 0.1 ;
-                        pokeballs[slot_pos]->ySpeed = (((mouse->y + mouse->height)/2) - (player->y + player->height)/2) * 0.1;
+                        pokeballs[slot_pos]->xSpeed = ((((mouse->x + mouse->width)/2) - (player->x + player->width)/2) / dist_player_goomba) * 10;
+                        pokeballs[slot_pos]->ySpeed = ((((mouse->y + mouse->height)/2) - (player->y + player->height)/2) / dist_player_goomba) * 10;
                         slot_pos++;
                     }
                     M1_PRESSED = false;
