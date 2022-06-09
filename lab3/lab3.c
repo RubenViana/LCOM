@@ -47,6 +47,19 @@ int(kbd_test_scan)() {
   uint32_t irq_set_rtc = BIT(bit_no_rtc);
   rtc_subscribe();
 
+  rtc_get_date();
+  printf("Hours: %02X \n",date.hour);
+  printf("Minutes: %02X ",date.min);
+  printf("Seconds: %02X \n",date.sec);
+  sys_outb(ADDR_REG, SECOND_ALARM_REGISTER);
+  sys_outb(DATA_REG, date.sec + 0xA);
+
+  sys_outb(ADDR_REG, MINUTE_ALARM_REGISTER);
+  sys_outb(DATA_REG, date.min);
+
+  sys_outb(ADDR_REG, HOUR_ALARM_REGISTER);
+  sys_outb(DATA_REG, date.hour);
+
   message msg;
   kbc_subscribe_int(&bit_no);
   while (scancode != ESCAPE_CODE) { 
@@ -65,7 +78,7 @@ int(kbd_test_scan)() {
             printf("Month: %02X ",date.month);
             printf("Day: %02X ",date.day);
             printf("Hours: %02X ",date.hour);
-            printf("Minutes: %02X ",date.min + 1);
+            printf("Minutes: %02X ",date.min);
             printf("Seconds: %02X \n",date.sec);
           }
           if (msg.m_notify.interrupts & irq_set_rtc) {

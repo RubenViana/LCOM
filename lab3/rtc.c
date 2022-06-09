@@ -17,13 +17,15 @@ int rtc_unsubscribe(){
 void rtc_ih() {
 	uint32_t data;
     data = read_rtc(REGISTER_C);
+    if (data & AIE)
+      printf("ALARM MODE\n");
 }
 
 int rtc_enable_update(){
     uint32_t data;
     data = read_rtc(REGISTER_B);
     
-    data |= UIE;
+    data |= UIE | AIE;
 
     sys_outb(ADDR_REG, REGISTER_B);
     
@@ -38,6 +40,7 @@ int rtc_disable_update(){
     data = read_rtc(REGISTER_B);
     
     data &= ~UIE;
+    data &= ~AIE;
 
     sys_outb(ADDR_REG, REGISTER_B);
     
