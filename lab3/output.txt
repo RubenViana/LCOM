@@ -1,9 +1,5 @@
-Year: 22 Month: 06 Day: 09 Hours: 17 Minutes: 37 Seconds: 17 
-Year: 22 Month: 06 Day: 09 Hours: 17 Minutes: 37 Seconds: 49 
-Year: 22 Month: 06 Day: 09 Hours: 17 Minutes: 37 Seconds: 49 
-Year: 22 Month: 06 Day: 09 Hours: 17 Minutes: 37 Seconds: 55 
-Year: 22 Month: 06 Day: 09 Hours: 17 Minutes: 37 Seconds: 55 
+Year: 22 Month: 06 Day: 09 Hours: 17 Minutes: 40 Seconds: 34 
 ALARM MODE
-Year: 22 Month: 06 Day: 09 Hours: 17 Minutes: 38 Seconds: 17 
-Year: 22 Month: 06 Day: 09 Hours: 17 Minutes: 38 Seconds: 17 
-sys_inb_calls: 14
+Year: 22 Month: 06 Day: 09 Hours: 17 Minutes: 41 Seconds: 36 
+Year: 22 Month: 06 Day: 09 Hours: 17 Minutes: 41 Seconds: 36 
+sys_inb_calls: 6
