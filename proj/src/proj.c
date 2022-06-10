@@ -83,6 +83,9 @@ bool DOWN = false;
 bool LEFT = false;
 bool RIGHT = false;
 
+/**
+ * Enum a simular um estado de uma máquina de estados
+ */
 typedef enum { MENU, PLAY, GAME_OVER, EXIT} state_g;
 
 state_g gameState;
@@ -111,6 +114,9 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
+/**
+ * Resetar as flags de movimento do jogador
+ */
 void clearKeys() {
     UP = false;
     DOWN = false;
@@ -118,6 +124,9 @@ void clearKeys() {
     RIGHT = false;
 }
 
+/**
+ * Inicializar um novo jogo
+ */
 void initializeGame(){
 
     rtc_get_date();
@@ -216,6 +225,9 @@ void initializeGame(){
     }
 }
 
+/**
+ * Mover as pokebolas na sua direção com a sua velocidade
+ */
 void moveBullets() {
     for (int i = 0; i < number_pokeballs; i++){
         if (pokeballs[i]->x < BLOCK_WIDTH || pokeballs[i]->x+pokeballs[i]->width > (int)h_res-BLOCK_WIDTH || pokeballs[i]->y < BLOCK_HEIGHT || pokeballs[i]->y+pokeballs[i]->height > (int)v_res-BLOCK_HEIGHT){
@@ -230,6 +242,9 @@ void moveBullets() {
     }
 }
 
+/**
+ * Mover o jogador
+ */
 void movePlayer() {
     if (UP && !DOWN) player->y -= player->ySpeed;
     if (DOWN && !UP) player->y += player->ySpeed;
@@ -243,6 +258,11 @@ void movePlayer() {
     }
 }
 
+/**
+ * Verifica colisões com outros goombas e com pokebolas
+ * @param i Goomba a verificar
+ * @return True se existir colisão ou false em caso contrário
+ */
 bool checkGoombaCollisions(int i){
     //collision between goombas
     for(int j = 0; j < 16;j++){
@@ -279,6 +299,11 @@ bool checkGoombaCollisions(int i){
     return false;
 }
 
+/**
+ * Verifica as colisões do player com as borders e com os goombas
+ * @param sp Sprite do jogador
+ * @param gameState Estado do jogo(máquina de estados)
+ */
 void checkPlayerCollisions(Sprite *sp,state_g *gameState){
 
     //collisions with borders
@@ -307,6 +332,9 @@ void checkPlayerCollisions(Sprite *sp,state_g *gameState){
     
 }
 
+/**
+ * Move todos os goombas em direção ao jogador
+ */
 void moveGoombas() {
     for (int i = 0; i < 16; i++){
         if (goombas[i]->x < player->x ) {
@@ -337,6 +365,10 @@ void moveGoombas() {
     
 }
 
+/**
+ * Atualiza o ecrã tendo em conta o estado do jogo
+ * @param gameState Estado do jogo(máquina de estados)
+ */
 void updateScreen (state_g *gameState) {
     switch(*gameState){
         case MENU:
@@ -409,6 +441,10 @@ void updateScreen (state_g *gameState) {
     }
 }
 
+/**
+ * Atualiza o estado do jogo de acordo com as teclas pressionadas e o estado do jogo atual
+ * @param gameState Estado do jogo(máquina de estados)
+ */
 void updateStateKbd (state_g *gameState){
     switch(*gameState){
         case MENU:
@@ -459,6 +495,10 @@ void updateStateKbd (state_g *gameState){
     }
 }
 
+/**
+ * Atualiza o estado do jogo de acordo com os movimentos do rato e o estado do jogo atual
+ * @param gameState Estado do jogo(máquina de estados)
+ */
 void updateStateMouse (state_g *gameState){
     if (reading_error == true && mouse_counter != 2) {
         return;
@@ -511,6 +551,12 @@ void updateStateMouse (state_g *gameState){
     }
 }
 
+/**
+ * Função principal onde se encontra o loop drive_receive que trata das interrupções
+ * @param argc Número de argumentos
+ * @param argv Array de argumentos
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int(proj_main_loop)(int argc, char *argv[]) {
     uint16_t mode = 0x14C;
 

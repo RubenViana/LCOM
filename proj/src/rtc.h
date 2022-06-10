@@ -3,6 +3,9 @@
 
 #include <lcom/lcf.h>
 
+/**
+ * Estrutura que representa uma data
+ */
 struct Date {
   unsigned int sec;
   unsigned int min;
@@ -36,18 +39,47 @@ struct Date {
 #define RTC_UIE BIT(4)
 #define RTC_AIE BIT(5)
 
+/**
+ * Interrupt handler - lê o registo C e limpas as flags e em caso de alarm interrupt avisa que o alarme foi disparado
+ */
 void rtc_ih();
 
+/**
+ * Subscrever as interrupções
+ * @param bit_no hook_id
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int rtc_subscribe();
 
+/**
+ * Cancelar a subscrição
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int rtc_unsubscribe();
 
+/**
+ * Ativa as interrupções do tipo update e alarm
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int rtc_enable_update_alarm();
 
+/**
+ * Desativa as interrupções do tipo update e alarm
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int rtc_disable_update_alarm();
 
+/**
+ * Lê um registo do RTC
+ * @param reg registo a ler
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int(read_from_rtc)(uint8_t reg);
 
+/**
+ * Lê a data atual e coloca-a na estrutura adequada
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int (rtc_get_date)();
 
 

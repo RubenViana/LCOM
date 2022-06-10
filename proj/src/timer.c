@@ -14,6 +14,12 @@ int hook_id_global = 0;
 
 int counter = 0;
 
+/**
+ * Mudar a frequência de um timer
+ * @param timer Timer
+ * @param freq Frequência
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   uint8_t control;
   timer_get_conf(timer,&control);
@@ -50,6 +56,11 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   return 0;
 }
 
+/**
+ * Subscrever as interrupções
+ * @param bit_no hook_id
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int (timer_subscribe_int)(uint8_t *bit_no) {
   int bit_no_int = *bit_no;
   if(bit_no==NULL){
@@ -61,6 +72,10 @@ int (timer_subscribe_int)(uint8_t *bit_no) {
   return 0;
 }
 
+/**
+ * Cancelar a subscrição
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int (timer_unsubscribe_int)() {
 
   sys_irqrmpolicy(&hook_id_global);
@@ -68,10 +83,19 @@ int (timer_unsubscribe_int)() {
 
 }
 
+/**
+ * Interrupt handler - aumenta um contador
+ */
 void (timer_int_handler)() {
     ++counter;
 }
 
+/**
+ * Obtém a configuração de um timer
+ * @param timer Timer
+ * @param st Estrutura onde guardar a configuração
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int (timer_get_conf)(uint8_t timer, uint8_t *st) {
 
   if(st==NULL) return 1;
@@ -95,6 +119,13 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
   return 0;
 }
 
+/**
+ * Mostrar a configuração de um timer
+ * @param timer Timer
+ * @param st Configuração
+ * @param field Campo a mostrar
+ * @return 0 a indicar sucesso ou 1 a indicar falha
+ */
 int (timer_display_conf)(uint8_t timer, uint8_t st,
                         enum timer_status_field field) {
   union timer_status_field_val value;
