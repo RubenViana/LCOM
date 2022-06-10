@@ -21,6 +21,16 @@
 #include "assets/game_over.xpm"
 #include "assets/hover_playagain.xpm"
 #include "assets/hover_gameover_exit.xpm"
+#include "assets/number_0.xpm"
+#include "assets/number_1.xpm"
+#include "assets/number_2.xpm"
+#include "assets/number_3.xpm"
+#include "assets/number_4.xpm"
+#include "assets/number_5.xpm"
+#include "assets/number_6.xpm"
+#include "assets/number_7.xpm"
+#include "assets/number_8.xpm"
+#include "assets/number_9.xpm"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -62,6 +72,8 @@ Sprite* hover_exit;
 Sprite* player;
 Sprite* goombas[16]; 
 Sprite* pokeballs[12];
+Sprite* numbers[10];
+
 
 static int BLOCK_WIDTH = 72;
 static int BLOCK_HEIGHT = 54;
@@ -207,6 +219,7 @@ void initializeGame(){
 void moveBullets() {
     for (int i = 0; i < number_pokeballs; i++){
         if (pokeballs[i]->x < BLOCK_WIDTH || pokeballs[i]->x+pokeballs[i]->width > (int)h_res-BLOCK_WIDTH || pokeballs[i]->y < BLOCK_HEIGHT || pokeballs[i]->y+pokeballs[i]->height > (int)v_res-BLOCK_HEIGHT){
+            //reset pokeballs
             pokeballs[i]->x = i * 20;
             pokeballs[i]->y = 0;
             pokeballs[i]->xSpeed = 0;
@@ -249,9 +262,16 @@ bool checkGoombaCollisions(int i){
             goombas[i]->x + goombas[i]->width > pokeballs[j]->x &&
             goombas[i]->y < pokeballs[j]->y + pokeballs[j]->height &&
             goombas[i]->y + goombas[i]->height > pokeballs[j]->y){
+
                 goombas[i]->x = goombas[i]->xSpeed;
                 goombas[i]->y = goombas[i]->ySpeed;
-                
+
+                //reset pokeballs
+                pokeballs[j]->x = j * 20;
+                pokeballs[j]->y = 0;
+                pokeballs[j]->xSpeed = 0;
+                pokeballs[j]->ySpeed = 0;
+
                 points++;   //player killed a goomba!
             }
     }
@@ -320,7 +340,7 @@ void moveGoombas() {
 void updateScreen (state_g *gameState) {
     switch(*gameState){
         case MENU:
-            mouse = create_sprite(mouse_xpm, mouse->x, mouse->y,0,0);       //maybe temp here
+            mouse = create_sprite(mouse_xpm, mouse->x, mouse->y,0,0);
             draw_sprite_proj(*menu_background);
 
             //draw hover buttons , maybe temp
@@ -335,7 +355,7 @@ void updateScreen (state_g *gameState) {
                 *gameState = GAME_OVER;
                 break;
             }
-            mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y,0,0);       //maybe temp here
+            mouse = create_sprite(crosshair_xpm, mouse->x, mouse->y,0,0);
             draw_sprite_proj(*play_background);
             for (int i = 0; i < 16; i++){
                 draw_sprite_proj(*goombas[i]);
@@ -353,9 +373,30 @@ void updateScreen (state_g *gameState) {
             checkPlayerCollisions(player,gameState);
             break;
         case GAME_OVER:
-            // draw game_over here !
             mouse = create_sprite(mouse_xpm, mouse->x, mouse->y,0,0);
+            draw_sprite_proj(*play_background);
+            for (int i = 0; i < 16; i++){
+                draw_sprite_proj(*goombas[i]);
+            }
+            for (int i = 0; i < number_pokeballs; i++){
+                draw_sprite_proj(*pokeballs[i]);
+            }
+            draw_sprite_proj(*player);
+
             draw_sprite_proj(*game_over);
+
+            //draw points
+            int ptn = points;
+            int ind = 0;
+            while (ptn > 0) {
+                int digit = ptn % 10;
+                Sprite* dig = numbers[digit];
+                dig->x = 730 - (40*ind);
+                dig->y = 437;
+                draw_sprite_proj(*dig);
+                ind++;
+                ptn /= 10;
+            }
 
             if (MOUSE_HOVER_PLAYAGAIN) draw_sprite_proj(*hover_playagain);
             else if (MOUSE_HOVER_GAMEOVER_EXIT) draw_sprite_proj(*hover_gameover_exit);
@@ -473,6 +514,29 @@ void updateStateMouse (state_g *gameState){
 int(proj_main_loop)(int argc, char *argv[]) {
     uint16_t mode = 0x14C;
 
+    //load number sprites
+    Sprite* n0 = create_sprite(number_0_xpm,0,0,0,0);
+    numbers[0] = n0;
+    Sprite* n1 = create_sprite(number_1_xpm,0,0,0,0);
+    numbers[1] = n1;
+    Sprite* n2 = create_sprite(number_2_xpm,0,0,0,0);
+    numbers[2] = n2;
+    Sprite* n3 = create_sprite(number_3_xpm,0,0,0,0);
+    numbers[3] = n3;
+    Sprite* n4 = create_sprite(number_4_xpm,0,0,0,0);
+    numbers[4] = n4;
+    Sprite* n5 = create_sprite(number_5_xpm,0,0,0,0);
+    numbers[5] = n5;
+    Sprite* n6 = create_sprite(number_6_xpm,0,0,0,0);
+    numbers[6] = n6;
+    Sprite* n7 = create_sprite(number_7_xpm,0,0,0,0);
+    numbers[7] = n7;
+    Sprite* n8 = create_sprite(number_8_xpm,0,0,0,0);
+    numbers[8] = n8;
+    Sprite* n9 = create_sprite(number_9_xpm,0,0,0,0);
+    numbers[9] = n9;
+
+
     play_background = create_sprite(background_xpm,0,0,0,0);
     menu_background = create_sprite(menu_background_xpm,0,0,0,0);
     game_over = create_sprite(game_over_xpm,0,0,0,0);
@@ -556,8 +620,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
         printf("\t vg_exit(): error ");
         return 1;
     }
-
-    printf("POINTS: %d\n", points);
 
     rtc_disable_update_alarm();
 
