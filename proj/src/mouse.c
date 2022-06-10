@@ -19,7 +19,8 @@ extern unsigned v_res;
 bool M1_PRESSED;
 bool MOUSE_HOVER_PLAY;
 bool MOUSE_HOVER_EXIT;
-
+bool MOUSE_HOVER_PLAYAGAIN;
+bool MOUSE_HOVER_GAMEOVER_EXIT;
 
 int(mouse_subscribe)(uint8_t * bit_no){
     int bit_no_int = *bit_no;
@@ -82,7 +83,9 @@ void (update_mouse_pos)() {
     M1_PRESSED = packet_struct.lb;
     MOUSE_HOVER_PLAY = mouse->x > 504 && mouse->x < 640 && mouse->y > 429 && mouse->y < 465;
     MOUSE_HOVER_EXIT = mouse->x > 504 && mouse->x < 640 && mouse->y > 482 && mouse->y < 516;
-    
+    MOUSE_HOVER_PLAYAGAIN = mouse->x > 389 && mouse->x < 603 && mouse->y > 515 && mouse->y < 535;
+    MOUSE_HOVER_GAMEOVER_EXIT = mouse->x > 675 && mouse->x < 757 && mouse->y > 515 && mouse->y < 535;
+
     if(mouse->x + mouse->width > (int)h_res){
         mouse->x = (int)h_res - mouse->width -5;
     }else if(mouse->x < 0){

@@ -18,6 +18,9 @@
 #include "assets/ultraball.xpm"
 #include "assets/hover_play.xpm"
 #include "assets/hover_exit.xpm"
+#include "assets/game_over.xpm"
+#include "assets/hover_playagain.xpm"
+#include "assets/hover_gameover_exit.xpm"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -41,6 +44,8 @@ extern unsigned v_res;
 extern bool M1_PRESSED;
 extern bool MOUSE_HOVER_PLAY;
 extern bool MOUSE_HOVER_EXIT;
+extern bool MOUSE_HOVER_PLAYAGAIN;
+extern bool MOUSE_HOVER_GAMEOVER_EXIT;
 
 static int number_pokeballs = 12;
 int slot_pos = 0;
@@ -49,6 +54,9 @@ int points = 0;
 Sprite* mouse;
 Sprite* play_background;
 Sprite* menu_background;
+Sprite* game_over;
+Sprite* hover_gameover_exit;
+Sprite* hover_playagain;
 Sprite* hover_play;
 Sprite* hover_exit;
 Sprite* player;
@@ -346,6 +354,14 @@ void updateScreen (state_g *gameState) {
             break;
         case GAME_OVER:
             // draw game_over here !
+            mouse = create_sprite(mouse_xpm, mouse->x, mouse->y,0,0);
+            draw_sprite_proj(*game_over);
+
+            if (MOUSE_HOVER_PLAYAGAIN) draw_sprite_proj(*hover_playagain);
+            else if (MOUSE_HOVER_GAMEOVER_EXIT) draw_sprite_proj(*hover_gameover_exit);
+
+            draw_sprite_proj(*mouse);
+            double_buffer();
             break;
         default:
             break;
@@ -393,7 +409,7 @@ void updateStateKbd (state_g *gameState){
             }
             break;
         case GAME_OVER:
-            if (scancode == SPACEBAR_CODE) {
+            if (scancode == ESCAPE_CODE) {
                 *gameState = MENU;
             }
             break;
@@ -437,6 +453,18 @@ void updateStateMouse (state_g *gameState){
                     M1_PRESSED = false;
                 }
                 break;
+            case GAME_OVER:
+                if (M1_PRESSED){
+                     if (MOUSE_HOVER_PLAYAGAIN) {
+                        *gameState = PLAY;
+                        initializeGame();
+                    }
+                    else if (MOUSE_HOVER_GAMEOVER_EXIT) {
+                        *gameState = MENU;
+                    }
+                    M1_PRESSED = false;
+                }
+                
             default: break;
         }
     }
@@ -447,6 +475,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     play_background = create_sprite(background_xpm,0,0,0,0);
     menu_background = create_sprite(menu_background_xpm,0,0,0,0);
+    game_over = create_sprite(game_over_xpm,0,0,0,0);
+    hover_gameover_exit = create_sprite(hover_gameover_exit_xpm,0,0,0,0);
+    hover_playagain = create_sprite(hover_playagain_xpm,0,0,0,0);
     hover_play = create_sprite(hover_play_xpm,0,0,0,0);
     hover_exit = create_sprite(hover_exit_xpm,0,0,0,0);
     player = create_sprite(dooper_right_xpm,550,400,5,5);
