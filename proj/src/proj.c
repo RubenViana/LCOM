@@ -392,7 +392,7 @@ void updateScreen (state_g *gameState) {
                 int digit = ptn % 10;
                 Sprite* dig = numbers[digit];
                 dig->x = 730 - (40*ind);
-                dig->y = 437;
+                dig->y = 435;
                 draw_sprite_proj(*dig);
                 ind++;
                 ptn /= 10;
